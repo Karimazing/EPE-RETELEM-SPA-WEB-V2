@@ -6,6 +6,7 @@
   <title>EPE RETELEM SPA</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
 </head>
 <body>
@@ -80,6 +81,16 @@
         </ul>
       </nav>
     </div>
+
+    <div class="lang-switcher header-lang-switcher" id="langSwitcher">
+      <button type="button" class="lang-drag-handle" aria-label="Move language switcher" title="Drag to move. Double-click to reset"></button>
+      <span class="lang-label" id="langLabel">Language</span>
+      <select id="langSelect" aria-label="Language selector">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
   </header>
 
   <main>
@@ -109,11 +120,11 @@
                 
                 <div class="ceo-content">
                     <p class="ceo-quote">
-                        "Notre succès repose sur notre capacité à offrir des services à haute expertise technologique, afin d'accompagner nos clients dans un environnement en évolution permanente."
+                        "Notre succès repose sur notre capacité à offrir des services et des solutions à haute expertise technologique, afin d'accompagner nos clients dans un environnement en évolution permanente."
                     </p>
                     
                     <div class="ceo-message">
-                        <p>Depuis sa création en 1971, sous le nom de SONATITE, RETELEM n'a cessé de relever des défis avec succès, en s'imposant tout d'abord comme pionnière dans la réalisation des infrastructures de télécommunications en Algérie, clientèle de plus en plus exigeante.</p>
+                        <p>Depuis sa création en 1971, sous le nom de SONATITE, RETELEM n'a cessé de relever des défis avec succès, en s'imposant comme pionnière dans la réalisation des infrastructures de télécommunications en Algérie, pour devenir aujourd’hui le leader des services et de l’intégration de solutions informatiques, réseaux d'entreprise et de sécurité.</p>
                         
                         <p>Acteur clé des Solutions & Services à forte valeur ajoutée, RETELEM met l'expertise de ses équipes au service des entreprises afin de répondre à leurs besoins et d'accompagner durablement leurs performances.</p>
                     </div>
@@ -137,6 +148,12 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Nos Domaines d'Expertise</h2>
+        <p class="section-subtitle services-expertise-intro" id="servicesIntro1">
+          Nos services d'intégration à forte valeur ajoutée, vous propose des services et des solutions à haute expertise technologique pour vous accompagner pendant le déroulement de vos projets : le Design, le Build et le Run.
+        </p>
+        <p class="section-subtitle services-expertise-intro services-expertise-intro-2" id="servicesIntro2">
+          Nos experts vous aide à gérer la complexité de vos projets en vous apportant l'analyse en amont, en passant par la réalisation et la mise en oeuvre, jusqu'à l'exploitation et le support d'exploitation afin de vous apporter la méthodologie et les process pour gérer les évolutions dans le temps.
+        </p>
        <!--  <p class="section-subtitle">Découvrez nos solutions complètes pour répondre à tous vos besoins en télécommunications, sécurité et systèmes d'information</p>-->
       </div>
       <div class="services-grid">
@@ -261,12 +278,80 @@
     </div>
   </div>
 
+  <div id="quoteRequestModal" class="modal" aria-hidden="true">
+    <div class="modal-content quote-modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-icon"><i class="fas fa-file-signature"></i></div>
+          <div>
+            <h2 id="quoteModalTitle">Demander un devis</h2>
+            <p class="quote-modal-subtitle" id="quoteModalSubtitle">Partagez votre besoin et notre équipe vous recontactera rapidement.</p>
+          </div>
+        </div>
+        <button class="modal-close" id="quoteRequestModalClose" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="quote-modal-grid">
+          <div class="quote-service-summary">
+            <span class="quote-service-kicker" id="quoteServiceKicker">Domaine concerné</span>
+            <h3 id="quoteServiceTitle">Service</h3>
+            <p id="quoteServiceDescription">Description du service sélectionné.</p>
+            <div class="quote-service-tags" id="quoteServiceTags"></div>
+          </div>
+
+          <form class="quote-request-form agency-form" id="quoteRequestForm">
+            <input id="quoteServiceField" name="service" type="hidden">
+
+            <div class="form-row">
+              <label for="quoteName" id="quoteNameLabel">Nom complet</label>
+              <input id="quoteName" name="name" type="text" required>
+            </div>
+
+            <div class="form-row">
+              <label for="quoteCompany" id="quoteCompanyLabel">Entreprise</label>
+              <input id="quoteCompany" name="company" type="text" required>
+            </div>
+
+            <div class="form-row form-row-split">
+              <div class="form-row-item">
+                <label for="quoteEmail" id="quoteEmailLabel">Email professionnel</label>
+                <input id="quoteEmail" name="email" type="email" required>
+              </div>
+              <div class="form-row-item">
+                <label for="quotePhone" id="quotePhoneLabel">Téléphone</label>
+                <input id="quotePhone" name="phone" type="tel" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label id="quoteNeedsLabel">Solutions recherchées</label>
+              <div class="quote-feature-options" id="quoteFeatureOptions"></div>
+            </div>
+
+            <div class="form-row">
+              <label for="quoteMessage" id="quoteMessageLabel">Décrivez votre besoin</label>
+              <textarea id="quoteMessage" name="message" required></textarea>
+            </div>
+
+            <div class="quote-form-actions">
+              <button class="btn btn-primary" type="submit" id="quoteSubmitBtn">Envoyer la demande</button>
+            </div>
+
+            <p class="quote-form-feedback" id="quoteFormFeedback" hidden></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <!-- Enhanced Stats Section -->
 <!-- Professional Stats Section -->
 <section class="stats-section" data-variant="enterprise">
   <div class="container">
     <header class="stats-header">
       <h2 class="stats-title">Performance & Impact</h2>
+      <p class="stats-subtitle">EPE RETELEM SPA doit son succès à l'engagement, au savoir-faire et à l'expertise des femmes et des hommes qui contribuent chaque jour à notre succès.</p>
     </header>
 
     <div class="stats-grid">
@@ -346,7 +431,7 @@
     <section class="news-gallery-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Nos Actualités</h2>
+                <h2 class="section-title">Notre Actualité</h2>
                <!--  <p class="section-subtitle">Découvrez RETELEM CONNECT. Restez informé de nos dernières réalisations, événements et innovations qui façonnent l'avenir des télécommunications en Algérie.</p> -->
             </div>
 
@@ -433,9 +518,9 @@
     <section class="history-section">
         <div class="container">
             <div class="history-content">
-                <h2 class="history-title">Inspirés par notre héritage pour façonner le futur…</h2>
+                <h2 class="history-title">Inspirés par notre héritage pour construire le futur…</h2>
                 <div class="history-text">
-                    <p>Pionnière depuis plus de 50 ans, EPE RETELEM SPA doit son succès à l'engagement, au savoir-faire et à l'expertise des femmes et des hommes qui contribuent chaque jour à notre succès.</p>
+                    <p>EPE RETELEM SPA est pionnière avec plus de 50 ans d'expérience dans la réalisation des infrastructures de télécommunications en Algérie (ex SONATITE) et plus de 20 ans d'expertise dans l'intégration de solutions informatiques en Infrastructure, Réseaux, Sécurité (vidéosurveillance, vidéoprotection, détection et protection incendie). Société de services et d'intégration à valeur ajoutée, EPE RETELEM SPA est un acteur incontournable des technologies de pointe et des innovations dans le domaine des Télécommunications, Réseaux, Sécurité et Infrastructures IT.</p>
                 </div>
 
                 <!-- Professional Horizontal Timeline -->
@@ -471,7 +556,7 @@
                                 <div class="logo-image"><img src="assets/logo.png" alt="new retelem logo" class="logo-image" /></div>
                             </div>
                             <div class="timeline-content">
-                                <h3>Vision d'avenir ambitieuse</h3>
+                                <h3>Vision d'avenir ambitieux</h3>
                                 <p>La nouvelle identité visuelle incarne la dynamique dans laquelle EPE RETELEM SPA est résolument entrée : celle d'une compagnie multi-activités qui met en œuvre sa mission de proposer des Solutions & Services à forte valeur ajoutée pour répondre aux besoins des entreprises afin de contribuer à leurs performances.</p>
                             </div>
                         </div>
@@ -484,8 +569,8 @@
                               <div class="history-gallery">
                                   <div class="gallery-track">
                                       <div class="gallery-item">
-                                          <img src="assets/10.jpeg" alt="Premiers équipements télécoms 1970s">
-                                          <div class="gallery-caption">Premiers équipements télécoms (1970s)</div>
+                                          <img src="assets/10.jpg" alt="1970 - Premiers équipements Telecom">
+                                          <div class="gallery-caption">1970 - Premiers équipements Telecom</div>
                                           <div class="story-popup">
                                               <h4>Les Débuts de la Révolution Télécom</h4>
                                               <p>En 1971, SONATITE installe les premiers équipements de télécommunications qui ont connecté l'Algérie. Ces systèmes analogiques pionniers ont posé les bases de l'infrastructure moderne.</p>
@@ -493,17 +578,17 @@
                                           </div>
                                       </div>
                                       <div class="gallery-item">
-                                          <img src="assets/11.jpeg" alt="Équipes techniques en formation">
-                                          <div class="gallery-caption">Équipes techniques en formation (1980s)</div>
+                                          <img src="assets/11.jpeg" alt="1980 - Nos Équipes Techniques engagées">
+                                          <div class="gallery-caption">1980 - Nos Équipes Techniques engagées</div>
                                           <div class="story-popup">
-                                              <h4>Formation des Premiers Experts</h4>
-                                              <p>Dans les années 80, nous avons formé la première génération d'ingénieurs télécoms algériens. Ces formations ont créé un savoir-faire local qui a permis l'autonomie technologique.</p>
-                                              <div class="story-meta">1985 • Formation</div>
+                                              <h4>Nos Équipes Techniques engagées</h4>
+                                              <p>Dans les années 80, nos équipes techniques étaient pleinement engagées sur le terrain pour accompagner le développement des infrastructures de télécommunications à travers le pays. Leur mobilisation a contribué à renforcer le savoir-faire local et la continuité de nos projets.</p>
+                                              <div class="story-meta">1980 • Engagement</div>
                                           </div>
                                       </div>
                                       <div class="gallery-item">
-                                          <img src="assets/12.jpeg" alt="Premier centre de données">
-                                          <div class="gallery-caption">Premier centre de données (1990s)</div>
+                                          <img src="assets/12.jpeg" alt="1990 - Premier Centre de Données">
+                                          <div class="gallery-caption">1990 - Premier Centre de Données</div>
                                           <div class="story-popup">
                                               <h4>L'Ère Numérique Commence</h4>
                                               <p>1995 marque l'installation de notre premier centre de données avec des serveurs mainframe. Cette infrastructure a supporté la transition vers le numérique des entreprises algériennes.</p>
@@ -511,8 +596,8 @@
                                           </div>
                                       </div>
                                       <div class="gallery-item">
-                                          <img src="assets/13.jpeg" alt="Transition vers RETELEM">
-                                          <div class="gallery-caption">Transition vers RETELEM (2000s)</div>
+                                          <img src="assets/13.jpeg" alt="2000 - Transition vers RETELEM">
+                                          <div class="gallery-caption">2000 - Transition vers RETELEM</div>
                                           <div class="story-popup">
                                               <h4>Nouvelle Identité, Nouvelle Vision</h4>
                                               <p>En 2008, SONATITE devient RETELEM, symbolisant notre évolution vers les solutions intégrées. Cette transformation a élargi notre portefeuille de services et notre rayonnement international.</p>
@@ -520,8 +605,8 @@
                                           </div>
                                       </div>
                                       <div class="gallery-item">
-                                          <img src="assets/14.jpeg" alt="Expansion des services">
-                                          <div class="gallery-caption">Expansion des services (2010s)</div>
+                                          <img src="assets/14.jpeg" alt="2010 - Extension de nos services">
+                                          <div class="gallery-caption">2010 - Extension de nos services</div>
                                           <div class="story-popup">
                                               <h4>Expansion et Diversification</h4>
                                               <p>Les années 2010 ont vu RETELEM diversifier ses services vers la cybersécurité, la vidéosurveillance et les solutions cloud. Nous avons doublé notre taille et triplé notre expertise.</p>
@@ -529,8 +614,8 @@
                                           </div>
                                       </div>
                                       <div class="gallery-item">
-                                          <img src="assets/15.jpeg" alt="Innovation technologique">
-                                          <div class="gallery-caption">Innovation technologique (2020s)</div>
+                                          <img src="assets/15.jpeg" alt="2020 - Innovation Technologique">
+                                          <div class="gallery-caption">2020 - Innovation Technologique</div>
                                           <div class="story-popup">
                                               <h4>L'Innovation au Cœur de Notre ADN</h4>
                                               <p>Aujourd'hui, RETELEM innove avec l'IA, l'IoT et la 5G. Notre centre de R&D développe des solutions sur mesure pour l'industrie 4.0 et la transformation digitale de l'Algérie.</p>
@@ -551,7 +636,7 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Nos Partenaires Majeurs</h2>
-        <p class="section-subtitle">Nos experts collaborent avec les leaders mondiaux afin d’offrir à nos clients les solutions les plus innovantes et les accompagner durablement dans leurs performances.</p>
+        <p class="section-subtitle">Nous collaborons avec les leaders mondiaux afin d’offrir à nos clients les solutions les plus innovantes et performantes.</p>
       </div>
       <div class="partners-grid">
         <!-- Partner 1 -->
@@ -948,6 +1033,83 @@
 
   </main>
 
+  <!-- Contact Section (Agencies Map) -->
+  <section class="contact-section" id="contact-section">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title" id="contactSectionTitle">Contactez-nous</h2>
+        <p class="section-subtitle" id="contactSectionSubtitle">
+          Trouvez l’agence la plus proche et contactez-nous directement.
+        </p>
+      </header>
+
+      <div class="agencies-map-card">
+        <div class="agencies-map-header">
+          <div class="agencies-map-legend" id="agenciesLegend">
+            <span class="legend-dot"></span>
+            <span id="agenciesLegendText">Cliquez sur une agence pour ouvrir le formulaire de contact</span>
+          </div>
+        </div>
+        <div id="agenciesMap" class="agencies-map" aria-label="Carte des agences en Algérie"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agency Contact Modal -->
+  <div id="agencyModal" class="modal" aria-hidden="true">
+    <div class="modal-content agency-modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h2 id="agencyModalTitle">Agence</h2>
+        </div>
+        <button class="modal-close" id="agencyModalClose" aria-label="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="agency-modal-grid">
+          <div class="agency-info">
+            <h3 id="agencyInfoHeading">Informations de l’agence</h3>
+            <div class="agency-info-row">
+              <span class="agency-info-label" id="agencyEmailLabel">Email</span>
+              <a href="#" id="agencyEmailValue" class="agency-info-value" target="_blank" rel="noopener">—</a>
+            </div>
+            <div class="agency-info-row">
+              <span class="agency-info-label" id="agencyPhoneLabel">Téléphone</span>
+              <a href="#" id="agencyPhoneValue" class="agency-info-value">—</a>
+            </div>
+          </div>
+
+          <form class="agency-form" id="agencyContactForm">
+            <h3 id="agencyFormHeading">Formulaire de contact</h3>
+
+            <div class="form-row">
+              <label for="agencyName" id="agencyNameLabel">Nom complet</label>
+              <input id="agencyName" name="name" type="text" required>
+            </div>
+
+            <div class="form-row">
+              <label for="agencyEmail" id="agencyEmailInputLabel">Email</label>
+              <input id="agencyEmail" name="email" type="email" required>
+            </div>
+
+            <div class="form-row">
+              <label for="agencyPhone" id="agencyPhoneInputLabel">Téléphone</label>
+              <input id="agencyPhone" name="phone" type="tel">
+            </div>
+
+            <div class="form-row">
+              <label for="agencyMessage" id="agencyMessageLabel">Message</label>
+              <textarea id="agencyMessage" name="message" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="agencySendBtn">Envoyer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <footer class="site-footer">
   <div class="container">
     <div class="footer-main">
@@ -1048,6 +1210,8 @@
   </div>
 </footer>
  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <script>
 document.addEventListener('DOMContentLoaded', function () {
   const header = document.querySelector('.site-header');
@@ -1169,11 +1333,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
   <script>
     // Service data
-    const serviceData = {
+    const serviceDataFR = {
       1: {
         title: "Intégration Systèmes d'information & Réseaux",
         icon: '<i class="fas fa-server"></i>',
-        description: "Notre équipe d'experts conçoit, met en œuvre et optimise des systèmes d'information et des infrastructures réseau performantes, sécurisées et évolutives adaptées aux besoins spécifiques de votre entreprise. Nous accompagnons nos clients dans leur transformation numérique avec des solutions sur mesure.",
+        description: "Conception, mise en œuvre et optimisation de systèmes d'information et d'infrastructures réseau performantes, sécurisées et évolutives pour répondre aux besoins de votre entreprise.",
         features: [
           "Audit et conseil en infrastructure IT",
           "Conception d'architectures réseau scalables",
@@ -1187,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', function () {
       2: {
         title: "Solutions Voix & Télécommunications",
         icon: '<i class="fas fa-phone-alt"></i>',
-        description: "Nous déployons des solutions de téléphonie IP, centres de contact et systèmes de communication unifiée pour optimiser vos communications internes et externes. Nos solutions améliorent la productivité et réduisent vos coûts de communication.",
+        description: "Déploiement de solutions de téléphonie IP, centres de contact et systèmes de communication unifiée pour optimiser vos communications internes et externes.",
         features: [
           "Téléphonie IP et ToIP",
           "Centres de contact omnicanaux",
@@ -1201,7 +1365,7 @@ document.addEventListener('DOMContentLoaded', function () {
       3: {
         title: "Vidéosurveillance & Contrôle d'Accès",
         icon: '<i class="fas fa-video"></i>',
-        description: "Nous proposons des solutions complètes de surveillance vidéo, contrôle d'accès et gestion des identités pour sécuriser vos sites, bâtiments et infrastructures critiques. Nos systèmes intègrent les dernières technologies d'analyse vidéo intelligente.",
+        description: "Solutions complètes de surveillance vidéo, contrôle d'accès et gestion des identités pour sécuriser vos sites, bâtiments et infrastructures critiques.",
         features: [
           "Caméras IP haute définition",
           "Systèmes d'analyse vidéo intelligente",
@@ -1215,7 +1379,7 @@ document.addEventListener('DOMContentLoaded', function () {
       4: {
         title: "Systèmes diffusion & TNT",
         icon: '<i class="fas fa-tv"></i>',
-        description: "Nous installons et maintenons des systèmes de diffusion audiovisuelle, réseaux câblés et infrastructures TNT pour une transmission optimale des contenus multimédias. Nos solutions garantissent une qualité d'image et de son exceptionnelle.",
+        description: "Installation et maintenance de systèmes de diffusion audiovisuelle, réseaux câblés et infrastructures TNT pour une transmission optimale des contenus multimédias.",
         features: [
           "Réseaux de distribution TV/IP",
           "Headends numériques et TNT",
@@ -1229,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', function () {
       5: {
         title: "Systèmes de Détection & Protection Incendie",
         icon: '<i class="fas fa-fire-extinguisher"></i>',
-        description: "Nous concevons et installons des systèmes de détection et d'extinction d'incendie conformes aux normes pour protéger vos personnes, biens et activités. Nos solutions sont adaptées à tous types d'établissements.",
+        description: "Conception et installation de systèmes de détection et d'extinction d'incendie conformes aux normes pour protéger vos personnes, biens et activités.",
         features: [
           "Systèmes d'alarme incendie (SSI)",
           "Détecteurs automatiques certifiés",
@@ -1243,7 +1407,7 @@ document.addEventListener('DOMContentLoaded', function () {
       6: {
         title: "Solutions de Transmission & Infrastructure de Communication",
         icon: '<i class="fas fa-satellite-dish"></i>',
-        description: "Nous déployons des infrastructures de transmission par fibre optique, liaisons hertziennes et solutions sans fil pour assurer une connectivité fiable et performante. Nos solutions couvrent tous les besoins en connectivité.",
+        description: "Déploiement d'infrastructures de transmission par fibre optique, liaisons hertziennes et solutions sans fil pour assurer une connectivité fiable et performante.",
         features: [
           "Réseaux fibres optiques FTTH/FTTO",
           "Liaisons hertziennes point à point",
@@ -1257,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', function () {
       7: {
         title: "Cybersécurité",
         icon: '<i class="fas fa-shield-alt"></i>',
-        description: "Nous proposons une protection avancée contre les cybermenaces avec des solutions de sécurité réseau, gestion des identités et des accès, et surveillance proactive de vos systèmes. Notre approche couvre l'ensemble de votre surface d'attaque.",
+        description: "Protection avancée contre les cybermenaces avec des solutions de sécurité réseau, gestion des identités et des accès, et surveillance proactive de vos systèmes.",
         features: [
           "Audits de sécurité et tests d'intrusion",
           "Pare-feux nouvelle génération",
@@ -1271,7 +1435,7 @@ document.addEventListener('DOMContentLoaded', function () {
       8: {
         title: "Centre de formation professionnelle",
         icon: '<i class="fas fa-chalkboard-teacher"></i>',
-        description: "Nous dispensons des formations certifiantes et sur-mesure dans les domaines des réseaux, télécommunications, sécurité et systèmes d'information pour développer les compétences de vos équipes. Nos formateurs sont des experts en activité.",
+        description: "Formations certifiantes et sur-mesure dans les domaines des réseaux, télécommunications, sécurité et systèmes d'information pour développer les compétences de vos équipes.",
         features: [
           "Formations réseaux et télécoms",
           "Certifications fabricants (Cisco, Fortinet, etc.)",
@@ -1284,6 +1448,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
 
+    // Active language-dependent data (default: French)
+    let serviceData = serviceDataFR;
+
     // Service Modal functionality
     document.addEventListener('DOMContentLoaded', function() {
       const serviceModal = document.getElementById('serviceModal');
@@ -1295,6 +1462,246 @@ document.addEventListener('DOMContentLoaded', function () {
       const serviceModalClose = document.getElementById('serviceModalClose');
       const serviceModalContact = document.getElementById('serviceModalContact');
       const serviceModalCall = document.getElementById('serviceModalCall');
+      const quoteRequestModal = document.getElementById('quoteRequestModal');
+      const quoteRequestModalClose = document.getElementById('quoteRequestModalClose');
+      const quoteRequestForm = document.getElementById('quoteRequestForm');
+      const quoteModalTitle = document.getElementById('quoteModalTitle');
+      const quoteModalSubtitle = document.getElementById('quoteModalSubtitle');
+      const quoteServiceKicker = document.getElementById('quoteServiceKicker');
+      const quoteServiceTitle = document.getElementById('quoteServiceTitle');
+      const quoteServiceDescription = document.getElementById('quoteServiceDescription');
+      const quoteServiceTags = document.getElementById('quoteServiceTags');
+      const quoteServiceField = document.getElementById('quoteServiceField');
+      const quoteFeatureOptions = document.getElementById('quoteFeatureOptions');
+      const quoteNameLabel = document.getElementById('quoteNameLabel');
+      const quoteCompanyLabel = document.getElementById('quoteCompanyLabel');
+      const quoteEmailLabel = document.getElementById('quoteEmailLabel');
+      const quotePhoneLabel = document.getElementById('quotePhoneLabel');
+      const quoteNeedsLabel = document.getElementById('quoteNeedsLabel');
+      const quoteMessageLabel = document.getElementById('quoteMessageLabel');
+      const quoteSubmitBtn = document.getElementById('quoteSubmitBtn');
+      const quoteMessage = document.getElementById('quoteMessage');
+      const quoteFormFeedback = document.getElementById('quoteFormFeedback');
+      const serviceModalSectionHeadings = serviceModal ? serviceModal.querySelectorAll('.service-info h3') : [];
+
+      const quoteFormUiByLang = {
+        fr: {
+          modalTitle: 'Demander un devis',
+          modalSubtitle: 'Partagez votre besoin et notre équipe vous recontactera rapidement.',
+          serviceKicker: 'Domaine concerné',
+          nameLabel: 'Nom complet',
+          companyLabel: 'Entreprise',
+          emailLabel: 'Email professionnel',
+          phoneLabel: 'Téléphone',
+          needsLabel: 'Solutions recherchées',
+          messageLabel: 'Décrivez votre besoin',
+          submitLabel: 'Envoyer la demande',
+          descriptionHeading: 'Description détaillée',
+          messagePlaceholder: 'Précisez votre contexte, vos objectifs et votre délai pour ',
+          featurePrefix: 'Besoin',
+          successPrefix: 'Merci. Votre demande de devis pour ',
+          successSuffix: ' a bien été envoyée.'
+        },
+        en: {
+          modalTitle: 'Request a quote',
+          modalSubtitle: 'Share your needs and our team will get back to you shortly.',
+          serviceKicker: 'Selected expertise',
+          nameLabel: 'Full name',
+          companyLabel: 'Company',
+          emailLabel: 'Business email',
+          phoneLabel: 'Phone',
+          needsLabel: 'Requested solutions',
+          messageLabel: 'Describe your project',
+          submitLabel: 'Send request',
+          descriptionHeading: 'Detailed description',
+          messagePlaceholder: 'Tell us about your context, goals, and timeline for ',
+          featurePrefix: 'Need',
+          successPrefix: 'Thank you. Your quote request for ',
+          successSuffix: ' has been sent successfully.'
+        },
+        ar: {
+          modalTitle: 'طلب عرض سعر',
+          modalSubtitle: 'شاركوا احتياجكم وسيتواصل معكم فريقنا في اقرب وقت.',
+          serviceKicker: 'المجال المعني',
+          nameLabel: 'الاسم الكامل',
+          companyLabel: 'الشركة',
+          emailLabel: 'البريد المهني',
+          phoneLabel: 'الهاتف',
+          needsLabel: 'الحلول المطلوبة',
+          messageLabel: 'صفوا احتياجكم',
+          submitLabel: 'ارسال الطلب',
+          descriptionHeading: 'الوصف التفصيلي',
+          messagePlaceholder: 'شاركونا سياقكم واهدافكم والجدول الزمني الخاص بـ ',
+          featurePrefix: 'احتياج',
+          successPrefix: 'شكرا لكم. تم ارسال طلب عرض السعر الخاص بـ ',
+          successSuffix: ' بنجاح.'
+        }
+      };
+
+      function getQuoteFormUi(lang) {
+        return quoteFormUiByLang[lang] || quoteFormUiByLang.fr;
+      }
+
+      function updateServiceModalHeadings(lang) {
+        const ui = getQuoteFormUi(lang);
+        if (serviceModalSectionHeadings[0]) {
+          serviceModalSectionHeadings[0].textContent = ui.descriptionHeading;
+        }
+        if (serviceModalSectionHeadings[1]) {
+          serviceModalSectionHeadings[1].textContent = getUIString('modalSolutionsHeading');
+        }
+      }
+
+      function setBodyScrollState() {
+        const modalOpen =
+          (serviceModal && serviceModal.style.display === 'block') ||
+          (quoteRequestModal && quoteRequestModal.style.display === 'block');
+        document.body.style.overflow = modalOpen ? 'hidden' : 'auto';
+      }
+
+      function closeServiceModal() {
+        if (!serviceModal) return;
+        serviceModal.style.display = 'none';
+        serviceModal.setAttribute('aria-hidden', 'true');
+        setBodyScrollState();
+      }
+
+      function closeQuoteRequestModal() {
+        if (!quoteRequestModal) return;
+        quoteRequestModal.style.display = 'none';
+        quoteRequestModal.setAttribute('aria-hidden', 'true');
+        setBodyScrollState();
+      }
+
+      function populateServiceModal(serviceId) {
+        const service = serviceData[serviceId];
+        if (!service || !serviceModal) return null;
+
+        serviceModal.dataset.serviceId = serviceId;
+        serviceModal.dataset.serviceTitle = service.title;
+        serviceModalTitle.textContent = service.title;
+        serviceModalIcon.innerHTML = service.icon;
+        serviceModalDescription.textContent = service.description;
+        serviceModalImage.src = service.image;
+        serviceModalImage.alt = service.title;
+
+        serviceModalFeatures.innerHTML = '';
+        service.features.forEach(feature => {
+          const li = document.createElement('li');
+          li.textContent = feature;
+          serviceModalFeatures.appendChild(li);
+        });
+
+        updateServiceModalHeadings(window.i18nLang || 'fr');
+        return service;
+      }
+
+      function renderQuoteFeatureOptions(serviceId, lang) {
+        const service = serviceData[serviceId];
+        if (!service || !quoteFeatureOptions) return;
+
+        const ui = getQuoteFormUi(lang);
+        quoteFeatureOptions.innerHTML = '';
+
+        service.features.forEach((feature, index) => {
+          const optionId = `quote-feature-${serviceId}-${index}`;
+          const label = document.createElement('label');
+          label.className = 'quote-feature-option';
+          label.setAttribute('for', optionId);
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.name = 'feature_interest';
+          checkbox.id = optionId;
+          checkbox.value = feature;
+
+          const text = document.createElement('span');
+          text.textContent = `${ui.featurePrefix} ${index + 1}: ${feature}`;
+
+          label.appendChild(checkbox);
+          label.appendChild(text);
+          quoteFeatureOptions.appendChild(label);
+        });
+      }
+
+      function renderQuoteRequestModal(serviceId, lang) {
+        const service = serviceData[serviceId];
+        if (!service || !quoteRequestModal) return;
+
+        const ui = getQuoteFormUi(lang);
+
+        quoteRequestModal.dataset.serviceId = serviceId;
+        if (quoteRequestForm) quoteRequestForm.reset();
+        if (quoteFormFeedback) {
+          quoteFormFeedback.hidden = true;
+          quoteFormFeedback.textContent = '';
+          quoteFormFeedback.classList.remove('is-visible');
+        }
+
+        if (quoteModalTitle) quoteModalTitle.textContent = ui.modalTitle;
+        if (quoteModalSubtitle) quoteModalSubtitle.textContent = ui.modalSubtitle;
+        if (quoteServiceKicker) quoteServiceKicker.textContent = ui.serviceKicker;
+        if (quoteServiceTitle) quoteServiceTitle.textContent = service.title;
+        if (quoteServiceDescription) quoteServiceDescription.textContent = service.description;
+        if (quoteServiceField) quoteServiceField.value = service.title;
+        if (quoteNameLabel) quoteNameLabel.textContent = ui.nameLabel;
+        if (quoteCompanyLabel) quoteCompanyLabel.textContent = ui.companyLabel;
+        if (quoteEmailLabel) quoteEmailLabel.textContent = ui.emailLabel;
+        if (quotePhoneLabel) quotePhoneLabel.textContent = ui.phoneLabel;
+        if (quoteNeedsLabel) quoteNeedsLabel.textContent = ui.needsLabel;
+        if (quoteMessageLabel) quoteMessageLabel.textContent = ui.messageLabel;
+        if (quoteSubmitBtn) quoteSubmitBtn.textContent = ui.submitLabel;
+        if (quoteMessage) quoteMessage.placeholder = `${ui.messagePlaceholder}${service.title}.`;
+
+        if (quoteServiceTags) {
+          quoteServiceTags.innerHTML = '';
+          service.features.slice(0, 4).forEach(feature => {
+            const tag = document.createElement('span');
+            tag.className = 'quote-service-tag';
+            tag.textContent = feature;
+            quoteServiceTags.appendChild(tag);
+          });
+        }
+
+        renderQuoteFeatureOptions(serviceId, lang);
+      }
+
+      function openQuoteRequestModal(serviceId) {
+        if (!quoteRequestModal) return;
+        renderQuoteRequestModal(serviceId, window.i18nLang || 'fr');
+        quoteRequestModal.style.display = 'block';
+        quoteRequestModal.setAttribute('aria-hidden', 'false');
+        setBodyScrollState();
+      }
+
+      function scrollToContactSection() {
+        const contactSection = document.getElementById('contact-section');
+        if (!contactSection) return;
+        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      window.updateQuoteRequestModalUI = function(lang) {
+        updateServiceModalHeadings(lang);
+        const activeServiceId =
+          (quoteRequestModal && quoteRequestModal.dataset.serviceId) ||
+          (serviceModal && serviceModal.dataset.serviceId);
+
+        if (activeServiceId) {
+          renderQuoteRequestModal(activeServiceId, lang);
+        } else {
+          const ui = getQuoteFormUi(lang);
+          if (quoteModalTitle) quoteModalTitle.textContent = ui.modalTitle;
+          if (quoteModalSubtitle) quoteModalSubtitle.textContent = ui.modalSubtitle;
+          if (quoteServiceKicker) quoteServiceKicker.textContent = ui.serviceKicker;
+          if (quoteNameLabel) quoteNameLabel.textContent = ui.nameLabel;
+          if (quoteCompanyLabel) quoteCompanyLabel.textContent = ui.companyLabel;
+          if (quoteEmailLabel) quoteEmailLabel.textContent = ui.emailLabel;
+          if (quotePhoneLabel) quotePhoneLabel.textContent = ui.phoneLabel;
+          if (quoteNeedsLabel) quoteNeedsLabel.textContent = ui.needsLabel;
+          if (quoteMessageLabel) quoteMessageLabel.textContent = ui.messageLabel;
+          if (quoteSubmitBtn) quoteSubmitBtn.textContent = ui.submitLabel;
+        }
+      };
       
       // Service card buttons
       const serviceButtons = document.querySelectorAll('.service-card .btn');
@@ -1303,64 +1710,84 @@ document.addEventListener('DOMContentLoaded', function () {
       serviceButtons.forEach(button => {
         button.addEventListener('click', function() {
           const serviceId = this.getAttribute('data-service');
-          const service = serviceData[serviceId];
+          const service = populateServiceModal(serviceId);
           
           if (service) {
-            serviceModalTitle.textContent = service.title;
-            serviceModalIcon.innerHTML = service.icon;
-            serviceModalDescription.textContent = service.description;
-            serviceModalImage.src = service.image;
-            serviceModalImage.alt = service.title;
-            
-            // Clear previous features
-            serviceModalFeatures.innerHTML = '';
-            
-            // Add features
-            service.features.forEach(feature => {
-              const li = document.createElement('li');
-              li.textContent = feature;
-              serviceModalFeatures.appendChild(li);
-            });
-            
-            // Show modal
             serviceModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+            serviceModal.setAttribute('aria-hidden', 'false');
+            setBodyScrollState();
           }
         });
       });
       
       // Close modal when X is clicked
-      serviceModalClose.addEventListener('click', function() {
-        serviceModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      });
+      serviceModalClose.addEventListener('click', closeServiceModal);
       
       // Close modal when clicking outside content
       serviceModal.addEventListener('click', function(e) {
         if (e.target === serviceModal) {
-          serviceModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
+          closeServiceModal();
         }
       });
       
-      // Contact buttons
+      // Service actions
       serviceModalContact.addEventListener('click', function() {
-        alert('Formulaire de demande de devis ouvert!');
-        // In a real implementation, this would open a contact form
+        const serviceId = serviceModal.dataset.serviceId;
+        if (!serviceId) return;
+        closeServiceModal();
+        openQuoteRequestModal(serviceId);
       });
       
       serviceModalCall.addEventListener('click', function() {
-        alert('Redirection vers la page contact!');
-        // In a real implementation, this would redirect to contact page
+        closeServiceModal();
+        scrollToContactSection();
       });
+
+      if (quoteRequestModalClose) {
+        quoteRequestModalClose.addEventListener('click', closeQuoteRequestModal);
+      }
+
+      if (quoteRequestModal) {
+        quoteRequestModal.addEventListener('click', function(e) {
+          if (e.target === quoteRequestModal) {
+            closeQuoteRequestModal();
+          }
+        });
+      }
+
+      if (quoteRequestForm) {
+        quoteRequestForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const lang = window.i18nLang || 'fr';
+          const serviceId = quoteRequestModal ? quoteRequestModal.dataset.serviceId : '';
+          const service = serviceData[serviceId];
+          const ui = getQuoteFormUi(lang);
+
+          if (!service || !quoteFormFeedback) return;
+
+          quoteFormFeedback.hidden = false;
+          quoteFormFeedback.classList.add('is-visible');
+          quoteFormFeedback.textContent = `${ui.successPrefix}${service.title}${ui.successSuffix}`;
+          quoteRequestForm.reset();
+          if (quoteServiceField) quoteServiceField.value = service.title;
+          renderQuoteFeatureOptions(serviceId, lang);
+        });
+      }
       
       // Close modal with Escape key
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && serviceModal.style.display === 'block') {
-          serviceModal.style.display = 'none';
-          document.body.style.overflow = 'auto';
+        if (e.key !== 'Escape') return;
+        if (quoteRequestModal && quoteRequestModal.style.display === 'block') {
+          closeQuoteRequestModal();
+          return;
+        }
+        if (serviceModal && serviceModal.style.display === 'block') {
+          closeServiceModal();
         }
       });
+
+      window.openServiceQuoteRequest = openQuoteRequestModal;
+      window.updateQuoteRequestModalUI(window.i18nLang || 'fr');
       
       // Simple animation for service cards
       const serviceCards = document.querySelectorAll('.service-card');
@@ -1385,7 +1812,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   <script>
     // Partners data with local assets
-    const partnersData = {
+    const partnersDataFR = {
       1: {
         name: "Cisco Systems",
         logo: "assets/Cisco Systems.png",
@@ -1524,6 +1951,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
 
+    // Active language-dependent data (default: French)
+    let partnersData = partnersDataFR;
+
     // Partners Modal functionality
     document.addEventListener('DOMContentLoaded', function() {
       const partnerModal = document.getElementById('partnerModal');
@@ -1552,7 +1982,7 @@ document.addEventListener('DOMContentLoaded', function () {
             partnerModalName.textContent = partner.name;
             partnerModalLogo.src = partner.logo;
             partnerModalLogo.alt = partner.name;
-            partnerModalCategory.textContent = `Partenaire ${partner.category}`;
+            partnerModalCategory.textContent = `${getUIString('partnerPrefix')} ${getPartnerTierLabel(partner.category)}`;
             partnerModalDescription.textContent = partner.description;
             partnerModalWebsite.href = partner.website;
             partnerModalYears.textContent = partner.years;
@@ -1591,12 +2021,12 @@ document.addEventListener('DOMContentLoaded', function () {
       
       // Contact buttons
       partnerModalContact.addEventListener('click', function() {
-        alert('Formulaire de demande d\'informations ouvert!');
+        alert(getUIString('infoRequestOpen'));
         // In a real implementation, this would open a contact form
       });
       
       partnerModalCall.addEventListener('click', function() {
-        alert('Redirection vers les produits du partenaire!');
+        alert(getUIString('partnerProductsRedirect'));
         // In a real implementation, this would redirect to partner products page
       });
       
@@ -1629,7 +2059,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   <script>
     // Informations data
-    const informationsData = {
+    const informationsDataFR = {
       1: {
         type: "video",
         title: "Présentation de EPE RETELEM SPA",
@@ -1761,6 +2191,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
 
+    // Active language-dependent data (default: French)
+    let informationsData = informationsDataFR;
+
     // Modal functionality
     document.addEventListener('DOMContentLoaded', function() {
       // Video Modal elements
@@ -1878,7 +2311,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
-    const newsData = {
+    const newsDataFR = {
         featured: [
             {
                 id: 1,
@@ -1966,7 +2399,10 @@ document.addEventListener('DOMContentLoaded', function () {
         ]
     };
 
-    const newsletterDetails = {
+    // Active language-dependent data (default: French)
+    let newsData = newsDataFR;
+
+    const newsletterDetailsFR = {
         1: {
             title: "Inauguration du nouveau centre de formation en cybersécurité",
             category: "innovations",
@@ -2125,6 +2561,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
+    // Active language-dependent data (default: French)
+    let newsletterDetails = newsletterDetailsFR;
+
     // Main initialization
     document.addEventListener('DOMContentLoaded', function() {
         initHeroCarousel();
@@ -2179,7 +2618,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         
         modalTitle.textContent = newsletter.title;
-        modalCategory.textContent = newsletter.category;
+        modalCategory.textContent = getCategoryLabel(newsletter.category);
         modalDate.innerHTML = `<i class="far fa-calendar"></i> ${newsletter.date}`;
         modalType.innerHTML = `<i class="far fa-file-alt"></i> ${newsletter.type}`;
         modalImage.src = newsletter.image;
@@ -2230,7 +2669,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         } else {
             navigator.clipboard.writeText(url);
-            alert('Lien copié dans le presse-papier !');
+            alert(getUIString('linkCopied'));
         }
     }
 
@@ -2251,7 +2690,7 @@ document.addEventListener('DOMContentLoaded', function () {
             slide.innerHTML = `
                 <div class="hero-bg" style="background-image: url('${item.image}')"></div>
                 <div class="hero-content">
-                    <span class="hero-category">${item.category}</span>
+                    <span class="hero-category">${getCategoryLabel(item.category)}</span>
                     <h3 class="hero-title">${item.title}</h3>
                     <p class="hero-excerpt">${item.excerpt}</p>
                     <div class="hero-meta">
@@ -2260,7 +2699,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     <div class="hero-cta">
                         <button class="hero-btn" onclick="openNewsletter(${item.id})">
-                            Lire l'article <i class="fas fa-arrow-right"></i>
+                            ${getUIString('readArticle')} <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
@@ -2324,7 +2763,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="news-card-image">
                     <img src="${item.image}" alt="${item.title}">
                     <div class="news-card-overlay"></div>
-                    <span class="news-card-category">${item.category}</span>
+                    <span class="news-card-category">${getCategoryLabel(item.category)}</span>
                 </div>
                 <div class="news-card-content">
                     <h3 class="news-card-title">${item.title}</h3>
@@ -2468,6 +2907,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const service = serviceData[serviceId];
     
     if (service && serviceModal) {
+      serviceModal.dataset.serviceId = serviceId;
+      serviceModal.dataset.serviceTitle = service.title;
       serviceModalTitle.textContent = service.title;
       serviceModalIcon.innerHTML = service.icon;
       serviceModalDescription.textContent = service.description;
@@ -2481,6 +2922,10 @@ document.addEventListener('DOMContentLoaded', function() {
         li.textContent = feature;
         serviceModalFeatures.appendChild(li);
       });
+
+      if (typeof window.updateQuoteRequestModalUI === 'function') {
+        window.updateQuoteRequestModalUI(window.i18nLang || 'fr');
+      }
       
       // Show modal
       serviceModal.style.display = 'block';
@@ -2530,7 +2975,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '#accueil': '.hero1',
         '#partenaires-section': '.partners-section',
         '#actualites-section': '.news-gallery-section',
-        '#contact-section': '.site-footer' // or create a contact section
+        '#contact-section': '#contact-section'
       };
       
       const sectionSelector = sectionMap[targetId];
@@ -2585,35 +3030,69 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // ===== SEARCH FUNCTIONALITY =====
   
-  // Searchable content database
-  const searchableContent = [
-    // Services
-    { title: 'Intégration Systèmes d\'information & Réseaux', type: 'Service', action: 'service', id: 1 },
-    { title: 'Solutions Voix & Télécommunications', type: 'Service', action: 'service', id: 2 },
-    { title: 'Vidéosurveillance & Contrôle d\'Accès', type: 'Service', action: 'service', id: 3 },
-    { title: 'Systèmes diffusion & TNT', type: 'Service', action: 'service', id: 4 },
-    { title: 'Systèmes de Détection & Protection Incendie', type: 'Service', action: 'service', id: 5 },
-    { title: 'Solutions de Transmission & Infrastructure de Communication', type: 'Service', action: 'service', id: 6 },
-    { title: 'Cybersécurité', type: 'Service', action: 'service', id: 7 },
-    { title: 'Centre de formation professionnelle', type: 'Service', action: 'service', id: 8 },
-    
-    // Partners
-    { title: 'Cisco Systems', type: 'Partenaire', action: 'partner', id: 1 },
-    { title: 'Microsoft', type: 'Partenaire', action: 'partner', id: 2 },
-    { title: 'Hewlett Packard Enterprise', type: 'Partenaire', action: 'partner', id: 3 },
-    { title: 'IBM', type: 'Partenaire', action: 'partner', id: 4 },
-    { title: 'Dell Technologies', type: 'Partenaire', action: 'partner', id: 5 },
-    { title: 'Oracle', type: 'Partenaire', action: 'partner', id: 6 },
-    { title: 'VMware', type: 'Partenaire', action: 'partner', id: 7 },
-    { title: 'Aruba Networks', type: 'Partenaire', action: 'partner', id: 8 },
-    
+  function getSearchLabels(lang) {
+    const typeLabelsByLang = {
+      fr: { service: 'Service', partner: 'Partenaire', section: 'Section' },
+      en: { service: 'Service', partner: 'Partner', section: 'Section' },
+      ar: { service: 'خدمة', partner: 'شريك', section: 'قسم' }
+    };
+
+    const sectionLabelsByLang = {
+      fr: { history: 'Notre Histoire', services: 'Nos Services', partners: 'Nos Partenaires', news: 'Actualités', contact: 'Contact' },
+      en: { history: 'Our Story', services: 'Our Services', partners: 'Our Partners', news: 'News', contact: 'Contact' },
+      ar: { history: 'قصتنا', services: 'خدماتنا', partners: 'شركاؤنا', news: 'الأخبار', contact: 'اتصل بنا' }
+    };
+
+    const noResultsByLang = {
+      fr: 'Aucun résultat trouvé',
+      en: 'No results found',
+      ar: 'لا توجد نتائج'
+    };
+
+    return {
+      typeLabels: typeLabelsByLang[lang] || typeLabelsByLang.fr,
+      sectionLabels: sectionLabelsByLang[lang] || sectionLabelsByLang.fr,
+      noResultsMessage: noResultsByLang[lang] || noResultsByLang.fr
+    };
+  }
+
+  function buildSearchableContent() {
+    const lang = window.i18nLang || 'fr';
+    const { typeLabels, sectionLabels } = getSearchLabels(lang);
+
+    const results = [];
+
+    // Services (titles come from already-swapped serviceData)
+    if (serviceData) {
+      Object.keys(serviceData).forEach((id) => {
+        const service = serviceData[id];
+        if (service?.title) {
+          results.push({ title: service.title, type: typeLabels.service, action: 'service', id });
+        }
+      });
+    }
+
+    // Partners (titles come from already-swapped partnersData)
+    if (partnersData) {
+      Object.keys(partnersData).forEach((id) => {
+        const partner = partnersData[id];
+        if (partner?.name) {
+          results.push({ title: partner.name, type: typeLabels.partner, action: 'partner', id });
+        }
+      });
+    }
+
     // Sections
-    { title: 'Notre Histoire', type: 'Section', action: 'section', target: '.history-section' },
-    { title: 'Nos Services', type: 'Section', action: 'section', target: '.services-section' },
-    { title: 'Nos Partenaires', type: 'Section', action: 'section', target: '.partners-section' },
-    { title: 'Actualités', type: 'Section', action: 'section', target: '.news-gallery-section' },
-    { title: 'Contact', type: 'Section', action: 'section', target: '.site-footer' },
-  ];
+    results.push(
+      { title: sectionLabels.history, type: typeLabels.section, action: 'section', target: '.history-section' },
+      { title: sectionLabels.services, type: typeLabels.section, action: 'section', target: '.services-section' },
+      { title: sectionLabels.partners, type: typeLabels.section, action: 'section', target: '.partners-section' },
+      { title: sectionLabels.news, type: typeLabels.section, action: 'section', target: '.news-gallery-section' },
+      { title: sectionLabels.contact, type: typeLabels.section, action: 'section', target: '#contact-section' }
+    );
+
+    return results;
+  }
 
   // Search function
   function performSearch(query) {
@@ -2623,6 +3102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const normalizedQuery = query.toLowerCase().trim();
+    const searchableContent = buildSearchableContent();
     const results = searchableContent.filter(item => 
       item.title.toLowerCase().includes(normalizedQuery)
     );
@@ -2633,7 +3113,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Display search results
   function displaySearchResults(results) {
     if (results.length === 0) {
-      searchResults.innerHTML = '<div class="search-no-results">Aucun résultat trouvé</div>';
+      const lang = window.i18nLang || 'fr';
+      const { noResultsMessage } = getSearchLabels(lang);
+      searchResults.innerHTML = `<div class="search-no-results">${noResultsMessage}</div>`;
       searchResults.classList.add('active');
       return;
     }
@@ -2734,6 +3216,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const service = serviceData[serviceId];
     
     if (service && serviceModal) {
+      serviceModal.dataset.serviceId = serviceId;
+      serviceModal.dataset.serviceTitle = service.title;
       serviceModalTitle.textContent = service.title;
       serviceModalIcon.innerHTML = service.icon;
       serviceModalDescription.textContent = service.description;
@@ -2746,6 +3230,10 @@ document.addEventListener('DOMContentLoaded', function() {
         li.textContent = feature;
         serviceModalFeatures.appendChild(li);
       });
+
+      if (typeof window.updateQuoteRequestModalUI === 'function') {
+        window.updateQuoteRequestModalUI(window.i18nLang || 'fr');
+      }
       
       serviceModal.style.display = 'block';
       document.body.style.overflow = 'hidden';
@@ -2789,7 +3277,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '#accueil': '.hero1',
         '#partenaires-section': '.partners-section',
         '#actualites-section': '.news-gallery-section',
-        '#contact-section': '.site-footer'
+        '#contact-section': '#contact-section'
       };
       
       const sectionSelector = sectionMap[targetId];
@@ -2916,6 +3404,2538 @@ class EnterpriseStatsCounter {
 document.addEventListener('DOMContentLoaded', () => {
   new EnterpriseStatsCounter();
 });
+</script>
+
+<script>
+  (function () {
+    const categoryLabelsByLang = {
+      fr: { all: 'Tout', projects: 'Projets', events: 'Événements', partnerships: 'Partenariats', innovations: 'Innovations' },
+      en: { all: 'All', projects: 'Projects', events: 'Events', partnerships: 'Partnerships', innovations: 'Innovations' },
+      ar: { all: 'الكل', projects: 'المشاريع', events: 'الفعاليات', partnerships: 'الشراكات', innovations: 'الابتكارات' }
+    };
+
+    const uiStringsByLang = {
+      fr: {
+        readArticle: "Lire l'article",
+        partnerPrefix: 'Partenaire',
+        learnMore: 'En savoir plus',
+        requestQuote: 'Demander un devis',
+        contactUs: 'Contactez-nous',
+        servicesTitle: "Nos Domaines d'Expertise",
+        servicesIntro1: "Nos services d'intégration à forte valeur ajoutée, vous propose des services et des solutions à haute expertise technologique pour vous accompagner pendant le déroulement de vos projets : le Design, le Build et le Run.",
+        servicesIntro2: "Nos experts vous aide à gérer la complexité de vos projets en vous apportant l'analyse en amont, en passant par la réalisation et la mise en oeuvre, jusqu'à l'exploitation et le support d'exploitation afin de vous apporter la méthodologie et les process pour gérer les évolutions dans le temps.",
+        modalSolutionsHeading: 'Nos solutions',
+        partnersTitle: 'Nos Partenaires Majeurs',
+        partnersSubtitle: 'Nous collaborons avec les leaders mondiaux afin d’offrir à nos clients les solutions les plus innovantes et performantes.',
+        aboutHeading: 'À propos',
+        solutionsProvidedHeading: 'Solutions fournies',
+        visitWebsiteText: 'Visiter le site web',
+        requestInformation: 'Demander des informations',
+        viewProducts: 'Voir les produits',
+        partnerYearsLabel: 'Ans de partenariat',
+        partnerProjectsLabel: 'Projets réalisés',
+        publicationsTitle: 'Publications',
+        publicationsSubtitle: 'Découvrez les dernières nouvelles, événements et réalisations de EPE RETELEM SPA',
+        videoBadge: 'Vidéo',
+        articleBadge: 'Article',
+        newsSectionTitle: 'Notre Actualité',
+        newsSearchPlaceholder: 'Rechercher une actualité...',
+        viewAllNews: 'Voir toutes nos actualités',
+        relatedNewsHeading: 'Actualités similaires',
+        shareButton: 'Partager',
+        printButton: 'Imprimer',
+        quoteFormOpen: 'Formulaire de demande de devis ouvert!',
+        contactRedirect: 'Redirection vers la page contact!',
+        infoRequestOpen: "Formulaire de demande d'informations ouvert!",
+        partnerProductsRedirect: 'Redirection vers les produits du partenaire!',
+        linkCopied: 'Lien copié dans le presse-papier !'
+      },
+      en: {
+        readArticle: 'Read the article',
+        partnerPrefix: 'Partner',
+        learnMore: 'Learn more',
+        requestQuote: 'Request a quote',
+        contactUs: 'Contact us',
+        servicesTitle: 'Our Areas of Expertise',
+        servicesIntro1: 'Our high added-value integration services offer you technology services and solutions with advanced expertise to support you throughout the execution of your projects: Design, Build, and Run.',
+        servicesIntro2: 'Our experts help you manage the complexity of your projects by providing upstream analysis, from delivery and implementation to operations and operational support—so you have the methodology and processes to manage changes over time.',
+        modalSolutionsHeading: 'Our solutions',
+        partnersTitle: 'Our Major Partners',
+        partnersSubtitle: 'We collaborate with global leaders to deliver the most innovative and high-performance solutions to our clients.',
+        aboutHeading: 'About',
+        solutionsProvidedHeading: 'Provided solutions',
+        visitWebsiteText: 'Visit the website',
+        requestInformation: 'Request information',
+        viewProducts: 'View partner products',
+        partnerYearsLabel: 'Years of partnership',
+        partnerProjectsLabel: 'Projects delivered',
+        publicationsTitle: 'Publications',
+        publicationsSubtitle: 'Discover the latest news, events and achievements from EPE RETELEM SPA',
+        videoBadge: 'Video',
+        articleBadge: 'Article',
+        newsSectionTitle: 'News',
+        newsSearchPlaceholder: 'Search news...',
+        viewAllNews: 'View all news',
+        relatedNewsHeading: 'Similar news',
+        shareButton: 'Share',
+        printButton: 'Print',
+        quoteFormOpen: 'Quote request form opened!',
+        contactRedirect: 'Redirecting to the contact page!',
+        infoRequestOpen: 'Information request form opened!',
+        partnerProductsRedirect: 'Redirecting to the partner products!',
+        linkCopied: 'Link copied to clipboard!'
+      },
+      ar: {
+        readArticle: 'اقرأ المقال',
+        partnerPrefix: 'شريك',
+        learnMore: 'اعرف المزيد',
+        requestQuote: 'طلب عرض سعر',
+        contactUs: 'اتصل بنا',
+        servicesTitle: 'مجالات خبرتنا',
+        servicesIntro1: 'تقدم لكم خدماتنا المتخصصة في التكامل ذات القيمة المضافة العالية خدمات وحلولًا عالية الخبرة التقنية لمرافقتكم خلال تنفيذ مشاريعكم: التصميم والبناء والتشغيل (Design, Build, Run).',
+        servicesIntro2: 'يساعدكم خبراؤنا على إدارة تعقيد مشاريعكم عبر تقديم تحليل مسبق، وصولًا إلى التنفيذ والتطبيق، ثم التشغيل والدعم التشغيلي، وذلك لتزويدكم بالمنهجية والعمليات اللازمة لإدارة التطورات مع مرور الوقت.',
+        modalSolutionsHeading: 'حلولنا',
+        partnersTitle: 'شركاؤنا الرئيسيون',
+        partnersSubtitle: 'نتعاون مع قادة عالميين لتقديم أفضل الحلول ابتكارًا وعالية الأداء لعملائنا.',
+        aboutHeading: 'نبذة عنا',
+        solutionsProvidedHeading: 'الحلول المقدمة',
+        visitWebsiteText: 'زيارة موقع الويب',
+        requestInformation: 'طلب معلومات',
+        viewProducts: 'عرض منتجات الشريك',
+        partnerYearsLabel: 'سنوات الشراكة',
+        partnerProjectsLabel: 'المشاريع المنجزة',
+        publicationsTitle: 'المنشورات',
+        publicationsSubtitle: 'اكتشف آخر الأخبار والفعاليات والإنجازات لـ EPE RETELEM SPA',
+        videoBadge: 'فيديو',
+        articleBadge: 'مقال',
+        newsSectionTitle: 'الأخبار',
+        newsSearchPlaceholder: 'ابحث في الأخبار...',
+        viewAllNews: 'عرض كل الأخبار',
+        relatedNewsHeading: 'أخبار مشابهة',
+        shareButton: 'مشاركة',
+        printButton: 'طباعة',
+        quoteFormOpen: 'تم فتح نموذج طلب عرض السعر!',
+        contactRedirect: 'جارٍ إعادة التوجيه إلى صفحة الاتصال!',
+        infoRequestOpen: 'تم فتح نموذج طلب المعلومات!',
+        partnerProductsRedirect: 'جارٍ إعادة التوجيه إلى منتجات الشريك!',
+        linkCopied: 'تم نسخ الرابط إلى الحافظة!'
+      }
+    };
+
+    const partnerTierLabelsByLang = {
+      fr: { Platinum: 'Platine', Gold: 'Or', Silver: 'Argent' },
+      en: { Platinum: 'Platinum', Gold: 'Gold', Silver: 'Silver' },
+      ar: { Platinum: 'بلاتينيوم', Gold: 'ذهبي', Silver: 'فضي' }
+    };
+
+    // Services translations (dynamic content)
+    // Note: logos/images remain the same; only text is localized.
+    const serviceDataEN = {
+      1: {
+        title: 'Integration of IT Systems & Networks',
+        icon: '<i class="fas fa-server"></i>',
+        description: 'Our team of experts designs, implements and optimizes high-performance, secure and scalable IT systems and network infrastructures tailored to your business needs. We support our clients in their digital transformation with bespoke solutions.',
+        features: [
+          'IT infrastructure audit and consulting',
+          'Design of scalable network architectures',
+          'Deployment of virtualized solutions',
+          'Integration of hybrid cloud systems',
+          'Proactive maintenance and 24/7 supervision',
+          'Migration and modernization of infrastructures'
+        ],
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      2: {
+        title: 'Voice & Telecommunications Solutions',
+        icon: '<i class="fas fa-phone-alt"></i>',
+        description: 'We deploy IP telephony, contact centers and unified communication systems to optimize your internal and external communications. Our solutions improve productivity and reduce communication costs.',
+        features: [
+          'IP telephony and ToIP',
+          'Omnichannel contact centers',
+          'Unified communications (UC)',
+          'Video conferencing and collaboration',
+          'Integrated mobile solutions',
+          'Unified messaging services'
+        ],
+        image: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      3: {
+        title: 'Video Surveillance & Access Control',
+        icon: '<i class="fas fa-video"></i>',
+        description: 'We provide comprehensive video surveillance, access control and identity management solutions to secure your sites, buildings and critical infrastructures. Our systems integrate the latest intelligent video analytics technologies.',
+        features: [
+          'High-definition IP cameras',
+          'Intelligent video analytics systems',
+          'Biometric access control and badges',
+          'Centralized identity management',
+          'Video protection solutions',
+          'Integration with alarm systems'
+        ],
+        image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      4: {
+        title: 'Broadcast Systems & TNT',
+        icon: '<i class="fas fa-tv"></i>',
+        description: 'We install and maintain audiovisual distribution systems, cable networks and TNT broadcasting infrastructures for optimal transmission of multimedia content. Our solutions guarantee exceptional picture and sound quality.',
+        features: [
+          'TV/IP distribution networks',
+          'Digital headends and TNT',
+          'Satellite broadcast systems',
+          'MATV/SMATV cable networks',
+          'IPTV solutions for enterprises',
+          'Preventive and corrective maintenance'
+        ],
+        image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      5: {
+        title: 'Fire Detection & Protection Systems',
+        icon: '<i class="fas fa-fire-extinguisher"></i>',
+        description: 'We design and install fire detection and suppression systems compliant with standards to protect people, property and activities. Our solutions are adapted to all types of facilities.',
+        features: [
+          'Fire alarm systems (SSI)',
+          'Certified automatic detectors',
+          'Automatic gas extinguishing',
+          'Sprinkler systems',
+          'Regulatory compliance',
+          'Maintenance and regulatory inspections'
+        ],
+        image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      6: {
+        title: 'Transmission & Communication Infrastructure Solutions',
+        icon: '<i class="fas fa-satellite-dish"></i>',
+        description: 'We deploy transmission infrastructures via fiber optics, microwave links and wireless solutions to ensure reliable, high-performance connectivity. Our solutions cover all connectivity needs.',
+        features: [
+          'Fiber optic networks (FTTH/FTTO)',
+          'Point-to-point microwave links',
+          'High-speed wireless networks',
+          'Backbone infrastructures',
+          'Backhauling solutions',
+          'End-to-end engineering & deployment'
+        ],
+        image: 'https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      7: {
+        title: 'Cybersecurity',
+        icon: '<i class="fas fa-shield-alt"></i>',
+        description: 'We offer advanced protection against cyber threats with network security solutions, identity and access management, and proactive monitoring of your systems. Our approach covers your entire attack surface.',
+        features: [
+          'Security audits and penetration testing',
+          'Next-generation firewalls',
+          'Threat detection and response',
+          'Access and identity security',
+          'Data encryption',
+          'User training and awareness'
+        ],
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      8: {
+        title: 'Professional Training Center',
+        icon: '<i class="fas fa-chalkboard-teacher"></i>',
+        description: 'We deliver certification and tailor-made training in the fields of networks, telecommunications, security and information systems to develop the skills of your teams. Our trainers are active experts.',
+        features: [
+          'Networks and telecom training',
+          'Vendor certifications (Cisco, Fortinet, etc.)',
+          'Cybersecurity and ethical hacking',
+          'Systems and cloud administration',
+          'Tailor-made in-company training',
+          'Online learning platform'
+        ],
+        image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      }
+    };
+
+    const serviceDataAR = {
+      1: {
+        title: 'تكامل أنظمة المعلومات والشبكات',
+        icon: '<i class="fas fa-server"></i>',
+        description: 'يقوم فريقنا من الخبراء بتصميم وتنفيذ وتحسين أنظمة المعلومات والبنى الشبكية عالية الأداء والآمنة والقابلة للتوسع وفق احتياجات مؤسستكم. نرافق عملاءنا في مسار التحول الرقمي بحلول مخصصة.',
+        features: [
+          'تدقيق واستشارات بنية تكنولوجيا المعلومات',
+          'تصميم معماريات شبكات قابلة للتوسع',
+          'نشر حلول افتراضية',
+          'تكامل الأنظمة السحابية الهجينة',
+          'صيانة استباقية وإشراف 24/7',
+          'ترحيل وتحديث البنى التحتية'
+        ],
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      2: {
+        title: 'حلول الاتصالات والصوت',
+        icon: '<i class="fas fa-phone-alt"></i>',
+        description: 'نقوم بنشر حلول الاتصالات عبر الـ IP ومراكز الاتصال وأنظمة الاتصالات الموحدة لتحسين اتصالاتكم الداخلية والخارجية. تعمل حلولنا على رفع الإنتاجية وتقليل تكاليف الاتصالات.',
+        features: [
+          'اتصالات IP و ToIP',
+          'مراكز اتصال متعددة القنوات',
+          'الاتصالات الموحدة (UC)',
+          'مؤتمرات الفيديو والتعاون',
+          'حلول الهاتف المحمول المدمجة',
+          'خدمات المراسلة الموحدة'
+        ],
+        image: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      3: {
+        title: 'المراقبة بالفيديو والتحكم في الوصول',
+        icon: '<i class="fas fa-video"></i>',
+        description: 'نقدم حلولاً شاملة للمراقبة بالفيديو والتحكم في الوصول وإدارة الهوية لتأمين مواقعكم ومبانيكم والبنى التحتية الحيوية. تدمج أنظمتنا أحدث تقنيات تحليل الفيديو الذكي.',
+        features: [
+          'كاميرات IP عالية الدقة',
+          'أنظمة تحليل الفيديو الذكي',
+          'التحكم في الوصول البيومتري وبطاقات الدخول',
+          'إدارة هوية مركزية',
+          'حلول حماية الفيديو',
+          'التكامل مع أنظمة الإنذار'
+        ],
+        image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      4: {
+        title: 'أنظمة البث و TNT',
+        icon: '<i class="fas fa-tv"></i>',
+        description: 'نقوم بتركيب وصيانة أنظمة توزيع المحتوى السمعي البصري وشبكات الكابلات وبنى بث TNT لضمان نقل مثالي للمحتوى متعدد الوسائط. تضمن حلولنا جودة استثنائية للصورة والصوت.',
+        features: [
+          'شبكات توزيع التلفزيون/الـ IP',
+          'الـ Headends الرقمية و TNT',
+          'أنظمة البث عبر الأقمار الصناعية',
+          'شبكات الكابلات MATV/SMATV',
+          'حلول IPTV للشركات',
+          'صيانة وقائية وتصحيحية'
+        ],
+        image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      5: {
+        title: 'أنظمة كشف الحريق والحماية',
+        icon: '<i class="fas fa-fire-extinguisher"></i>',
+        description: 'نقوم بتصميم وتركيب أنظمة كشف الحريق وإطفائه وفق المعايير لحماية الأشخاص والممتلكات والأنشطة. حلولنا مناسبة لجميع أنواع المنشآت.',
+        features: [
+          'أنظمة إنذار الحريق (SSI)',
+          'كواشف آلية معتمدة',
+          'إطفاء آلي بالغاز',
+          'أنظمة رشّاشات الحريق (Sprinklers)',
+          'الامتثال التنظيمي',
+          'الصيانة والفحوصات التنظيمية'
+        ],
+        image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      6: {
+        title: 'حلول البنية التحتية للاتصالات والنقل',
+        icon: '<i class="fas fa-satellite-dish"></i>',
+        description: 'نقوم بنشر بنى النقل عبر الألياف البصرية وروابط الميكروويف والحلول اللاسلكية لضمان اتصال موثوق وعالي الأداء. تغطي حلولنا جميع احتياجات الاتصال.',
+        features: [
+          'شبكات الألياف البصرية (FTTH/FTTO)',
+          'روابط ميكروويف نقطة إلى نقطة',
+          'شبكات لاسلكية عالية السرعة',
+          'بنى الظهر (Backbone)',
+          'حلول الـ Backhauling',
+          'هندسة وتنفيذ شاملين (تسليم كامل)'
+        ],
+        image: 'https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      7: {
+        title: 'الأمن السيبراني',
+        icon: '<i class="fas fa-shield-alt"></i>',
+        description: 'نقدم حماية متقدمة ضد التهديدات السيبرانية من خلال حلول أمن الشبكات وإدارة الهوية والصلاحيات والمراقبة الاستباقية لأنظمتكم. تغطي مقاربتنا سطح الهجوم بالكامل.',
+        features: [
+          'عمليات تدقيق أمني واختبارات اختراق',
+          'جدران نارية الجيل التالي',
+          'اكتشاف التهديدات والاستجابة لها',
+          'أمن الوصول والهوية',
+          'تشفير البيانات',
+          'تدريب المستخدمين ورفع الوعي'
+        ],
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      },
+      8: {
+        title: 'مركز التدريب المهني',
+        icon: '<i class="fas fa-chalkboard-teacher"></i>',
+        description: 'نقدم دورات تدريبية معتمدة ومصممة خصيصاً في مجالات الشبكات والاتصالات والأمن وأنظمة المعلومات لتطوير مهارات فرقكم. مدربونا خبراء نشطون.',
+        features: [
+          'تدريب الشبكات والاتصالات',
+          'اعتمادات الشركات (Cisco, Fortinet, إلخ)',
+          'الأمن السيبراني والقرصنة الأخلاقية',
+          'إدارة الأنظمة والسحابة',
+          'تدريب مخصص داخل المؤسسة',
+          'منصة تعلم أونلاين'
+        ],
+        image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      }
+    };
+
+    // Partners translations (modal content)
+    const partnersDataEN = {
+      1: {
+        name: 'Cisco Systems',
+        logo: 'assets/Cisco Systems.png',
+        category: 'Platinum',
+        description: 'Cisco is the global leader in networking technologies. Partner of RETELEM for more than 15 years, Cisco provides cutting-edge network solutions for the most demanding client requirements.',
+        website: 'https://www.cisco.com',
+        solutions: [
+          'Enterprise networks (LAN/WAN)',
+          'Network security solutions',
+          'Unified collaboration',
+          'Data centers',
+          'Wireless networks',
+          'Internet of Things (IoT)'
+        ],
+        years: '15+',
+        projects: '200+'
+      },
+      2: {
+        name: 'Microsoft',
+        logo: 'assets/Microsoft.png',
+        category: 'Gold',
+        description: 'Microsoft helps organizations realize their full potential through leading software and cloud solutions. Our partnership enables us to deliver high-value enterprise offerings.',
+        website: 'https://www.microsoft.com',
+        solutions: [
+          'Microsoft Azure solutions',
+          'Microsoft 365 and Dynamics 365',
+          'Windows Server and Active Directory',
+          'Productivity solutions',
+          'Security and compliance',
+          'Power Platform'
+        ],
+        years: '12+',
+        projects: '180+'
+      },
+      3: {
+        name: 'Hewlett Packard Enterprise',
+        logo: 'assets/Hewlett Packard Enterprise.png',
+        category: 'Platinum',
+        description: 'HPE delivers intelligent infrastructure and technology solutions that help businesses transform with cloud, immersive experiences and managed services.',
+        website: 'https://www.hpe.com',
+        solutions: [
+          'Servers and compute solutions',
+          'Storage and data solutions',
+          'HPE Aruba enterprise networks',
+          'Hybrid cloud solutions',
+          'Managed services and consulting',
+          'IoT and edge computing solutions'
+        ],
+        years: '10+',
+        projects: '150+'
+      },
+      4: {
+        name: 'IBM',
+        logo: 'assets/IBM.png',
+        category: 'Gold',
+        description: 'IBM is a global leader in technology innovation and consulting, supporting enterprises with AI, cloud and data-driven platforms.',
+        website: 'https://www.ibm.com',
+        solutions: [
+          'IBM Cloud and hybrid solutions',
+          'Watson artificial intelligence',
+          'IBM security solutions',
+          'Blockchain and IoT',
+          'Data and analytics solutions',
+          'Digital transformation and consulting'
+        ],
+        years: '8+',
+        projects: '120+'
+      },
+      5: {
+        name: 'Dell Technologies',
+        logo: 'assets/Dell Technologies.png',
+        category: 'Silver',
+        description: 'Dell Technologies enables organizations to build their digital future with robust infrastructures, workstations, cloud and security solutions.',
+        website: 'https://www.dell.com',
+        solutions: [
+          'PowerEdge servers',
+          'Dell EMC storage solutions',
+          'Workstations and laptops',
+          'Virtualization solutions',
+          'Hyperconverged infrastructures',
+          'Data protection solutions'
+        ],
+        years: '7+',
+        projects: '90+'
+      },
+      6: {
+        name: 'Oracle',
+        logo: 'assets/Oracle.png',
+        category: 'Platinum',
+        description: 'Oracle provides integrated application suites and secure platform services in the cloud and on-premises. We deploy robust enterprise solutions with Oracle.',
+        website: 'https://www.oracle.com',
+        solutions: [
+          'Oracle database solutions',
+          'Oracle ERP enterprise applications',
+          'Oracle cloud solutions',
+          'Middleware engines',
+          'High availability solutions',
+          'Analytics and Big Data'
+        ],
+        years: '10+',
+        projects: '110+'
+      },
+      7: {
+        name: 'VMware',
+        logo: 'assets/VMware.png',
+        category: 'Gold',
+        description: 'VMware is a leader in cloud infrastructure and enterprise virtualization, helping organizations manage IT efficiently in the cloud era.',
+        website: 'https://www.vmware.com',
+        solutions: [
+          'vSphere server virtualization',
+          'VMware cloud solutions',
+          'Workstation virtualization',
+          'NSX networking and security',
+          'Virtual storage solutions',
+          'Automation and orchestration'
+        ],
+        years: '9+',
+        projects: '130+'
+      },
+      8: {
+        name: 'Aruba Networks',
+        logo: 'assets/Aruba Networks.png',
+        category: 'Silver',
+        description: 'Aruba (an HPE company) is a leader in wireless networks, security and IoT. Our partnership supports high-performance and secure deployments.',
+        website: 'https://www.arubanetworks.com',
+        solutions: [
+          'Enterprise wireless networks',
+          'Network security solutions',
+          'Analytics and location',
+          'Campus and wired networks',
+          'IoT and edge solutions',
+          'Cloud-managed network solutions'
+        ],
+        years: '5+',
+        projects: '70+'
+      }
+    };
+
+    const partnersDataAR = {
+      1: {
+        name: 'Cisco Systems',
+        logo: 'assets/Cisco Systems.png',
+        category: 'Platinum',
+        description: 'تُعد Cisco من الرواد عالميًا في تقنيات الشبكات. وبوصفها شريكًا لـ RETELEM منذ أكثر من 15 عامًا، تزوّدنا Cisco بحلول شبكية متطورة لتلبية متطلبات العملاء الأكثر دقة.',
+        website: 'https://www.cisco.com',
+        solutions: [
+          'شبكات المؤسسات (LAN/WAN)',
+          'حلول أمن الشبكات',
+          'التعاون الموحد',
+          'مراكز البيانات',
+          'الشبكات اللاسلكية',
+          'إنترنت الأشياء (IoT)'
+        ],
+        years: '15+',
+        projects: '200+'
+      },
+      2: {
+        name: 'Microsoft',
+        logo: 'assets/Microsoft.png',
+        category: 'Gold',
+        description: 'تساعد Microsoft المؤسسات على تحقيق إمكاناتها الكاملة عبر البرمجيات والحلول السحابية الرائدة. تُمكّننا شراكتنا من تقديم عروض مؤسسية عالية القيمة.',
+        website: 'https://www.microsoft.com',
+        solutions: [
+          'حلول Microsoft Azure',
+          'Microsoft 365 و Dynamics 365',
+          'Windows Server و Active Directory',
+          'حلول الإنتاجية',
+          'الأمن والامتثال',
+          'Power Platform'
+        ],
+        years: '12+',
+        projects: '180+'
+      },
+      3: {
+        name: 'Hewlett Packard Enterprise',
+        logo: 'assets/Hewlett Packard Enterprise.png',
+        category: 'Platinum',
+        description: 'تقدّم HPE بنى تحتية ذكية وحلول تكنولوجية تساعد المؤسسات على التحول عبر السحابة والتجارب الغامرة والخدمات المُدارة.',
+        website: 'https://www.hpe.com',
+        solutions: [
+          'الخوادم وحلول الحوسبة',
+          'حلول التخزين والبيانات',
+          'شبكات المؤسسات HPE Aruba',
+          'حلول السحابة الهجينة',
+          'الخدمات المُدارة والاستشارات',
+          'حلول IoT وedge computing'
+        ],
+        years: '10+',
+        projects: '150+'
+      },
+      4: {
+        name: 'IBM',
+        logo: 'assets/IBM.png',
+        category: 'Gold',
+        description: 'تُعد IBM رائدة عالميًا في الابتكار التقني والاستشارات، وتدعم الشركات بحلول الذكاء الاصطناعي والسحابة والمنصات المعتمدة على البيانات.',
+        website: 'https://www.ibm.com',
+        solutions: [
+          'IBM Cloud والحلول الهجينة',
+          'ذكاء Watson الاصطناعي',
+          'حلول أمن IBM',
+          'Blockchain وIoT',
+          'حلول البيانات والتحليلات',
+          'التحول الرقمي والاستشارات'
+        ],
+        years: '8+',
+        projects: '120+'
+      },
+      5: {
+        name: 'Dell Technologies',
+        logo: 'assets/Dell Technologies.png',
+        category: 'Silver',
+        description: 'تمكّن Dell Technologies المؤسسات من بناء مستقبلها الرقمي عبر بنى تحتية قوية ومحطات عمل وسحابة وحلول أمن.',
+        website: 'https://www.dell.com',
+        solutions: [
+          'خوادم PowerEdge',
+          'حلول تخزين Dell EMC',
+          'محطات العمل واللابتوبات',
+          'حلول الافتراضية',
+          'بنى Hyperconverged',
+          'حلول حماية البيانات'
+        ],
+        years: '7+',
+        projects: '90+'
+      },
+      6: {
+        name: 'Oracle',
+        logo: 'assets/Oracle.png',
+        category: 'Platinum',
+        description: 'تقدّم Oracle حزم تطبيقات متكاملة وخدمات منصة آمنة في السحابة وعلى الموقع. ننشر حلول مؤسسية قوية بالتعاون مع Oracle.',
+        website: 'https://www.oracle.com',
+        solutions: [
+          'قواعد بيانات Oracle',
+          'تطبيقات المؤسسات Oracle ERP',
+          'حلول السحابة من Oracle',
+          'محركات الـ middleware',
+          'حلول عالية التوفر',
+          'التحليلات وBig Data'
+        ],
+        years: '10+',
+        projects: '110+'
+      },
+      7: {
+        name: 'VMware',
+        logo: 'assets/VMware.png',
+        category: 'Gold',
+        description: 'تُعد VMware رائدة في البنية التحتية السحابية والافتراضية المؤسسية، وتساعد المؤسسات على إدارة تقنية المعلومات بكفاءة في عصر السحابة.',
+        website: 'https://www.vmware.com',
+        solutions: [
+          'افتراضية خوادم vSphere',
+          'حلول VMware السحابية',
+          'افتراضية محطات العمل',
+          'شبكات NSX وأمنها',
+          'حلول التخزين الافتراضي',
+          'الأتمتة وأوركستراشن'
+        ],
+        years: '9+',
+        projects: '130+'
+      },
+      8: {
+        name: 'Aruba Networks',
+        logo: 'assets/Aruba Networks.png',
+        category: 'Silver',
+        description: 'Aruba (شركة ضمن HPE) رائدة في الشبكات اللاسلكية والأمن وإنترنت الأشياء. يدعم شراكتنا نشر حلول عالية الأداء وآمنة.',
+        website: 'https://www.arubanetworks.com',
+        solutions: [
+          'شبكات لاسلكية للمؤسسات',
+          'حلول أمن الشبكات',
+          'تحليلات وموقع',
+          'شبكات campus وسلكية',
+          'حلول IoT وedge',
+          'حلول الشبكات المُدارة سحابياً'
+        ],
+        years: '5+',
+        projects: '70+'
+      }
+    };
+
+    function updatePartnerStaticUI(lang) {
+      const partnersSubtitleByLang = {
+        fr: 'Nos experts collaborent avec les leaders mondiaux afin d’offrir à nos clients les solutions les plus innovantes et de les accompagner durablement dans leurs performances.',
+        en: 'Our experts collaborate with global leaders to provide our clients with the most innovative solutions and support their long-term performance.',
+        ar: 'يتعاون خبراؤنا مع القادة العالميين لتقديم أكثر الحلول ابتكارًا لعملائنا ومرافقتهم على المدى الطويل في تعزيز أدائهم.'
+      };
+
+      // Partners section
+      const partnersTitle = document.querySelector('.partners-section .section-title');
+      if (partnersTitle) partnersTitle.textContent = getUIString('partnersTitle');
+
+      const partnersSubtitle = document.querySelector('.partners-section .section-subtitle');
+      if (partnersSubtitle) partnersSubtitle.textContent = partnersSubtitleByLang[lang] || getUIString('partnersSubtitle');
+
+      // Partner modal static headings/buttons
+      const aboutHeading = document.querySelector('#partnerModal .partner-description h3');
+      if (aboutHeading) aboutHeading.textContent = getUIString('aboutHeading');
+
+      const solutionsHeading = document.querySelector('#partnerModal .partner-solutions h3');
+      if (solutionsHeading) solutionsHeading.textContent = getUIString('solutionsProvidedHeading');
+
+      const partnerModalWebsite = document.getElementById('partnerModalWebsite');
+      if (partnerModalWebsite) {
+        partnerModalWebsite.innerHTML = `<i class="fas fa-external-link-alt"></i> ${getUIString('visitWebsiteText')}`;
+      }
+
+      const partnerModalContact = document.getElementById('partnerModalContact');
+      if (partnerModalContact) partnerModalContact.textContent = getUIString('requestInformation');
+
+      const partnerModalCall = document.getElementById('partnerModalCall');
+      if (partnerModalCall) partnerModalCall.textContent = getUIString('viewProducts');
+
+      const yearsStatLabel = document.querySelector('#partnerModalYears')?.closest('.stat')?.querySelector('.stat-label');
+      if (yearsStatLabel) yearsStatLabel.textContent = getUIString('partnerYearsLabel');
+
+      const projectsStatLabel = document.querySelector('#partnerModalProjects')?.closest('.stat')?.querySelector('.stat-label');
+      if (projectsStatLabel) projectsStatLabel.textContent = getUIString('partnerProjectsLabel');
+    }
+
+    function updateServiceStaticUI(lang) {
+      const serviceDescriptionHeadingByLang = {
+        fr: 'Description détaillée',
+        en: 'Detailed description',
+        ar: 'الوصف التفصيلي'
+      };
+
+      // Section title
+      const servicesTitle = document.querySelector('.services-section .section-title');
+      if (servicesTitle) servicesTitle.textContent = getUIString('servicesTitle');
+
+      // Intro text under the services title
+      const servicesIntro1 = document.getElementById('servicesIntro1');
+      if (servicesIntro1) servicesIntro1.textContent = getUIString('servicesIntro1');
+
+      const servicesIntro2 = document.getElementById('servicesIntro2');
+      if (servicesIntro2) servicesIntro2.textContent = getUIString('servicesIntro2');
+
+      // Header submenu labels for each service
+      document.querySelectorAll('.service-sub-link[data-service]').forEach(link => {
+        const id = link.getAttribute('data-service');
+        const service = serviceData[id];
+        if (service) link.textContent = service.title;
+      });
+
+      // Service cards (main grid)
+      document.querySelectorAll('.service-card .btn[data-service]').forEach(button => {
+        const id = button.getAttribute('data-service');
+        const service = serviceData[id];
+        if (!service) return;
+
+        const card = button.closest('.service-card');
+        if (!card) return;
+
+        const titleEl = card.querySelector('.service-title');
+        const descEl = card.querySelector('.service-description');
+
+        if (titleEl) titleEl.textContent = service.title;
+        if (descEl) descEl.textContent = service.description;
+        button.textContent = getUIString('learnMore');
+      });
+
+      // Service modal labels/buttons
+      const modalHeadings = document.querySelectorAll('#serviceModal .service-info h3');
+      if (modalHeadings[0]) modalHeadings[0].textContent = serviceDescriptionHeadingByLang[lang] || serviceDescriptionHeadingByLang.fr;
+      if (modalHeadings[1]) modalHeadings[1].textContent = getUIString('modalSolutionsHeading');
+
+      const contactBtn = document.getElementById('serviceModalContact');
+      if (contactBtn) contactBtn.textContent = getUIString('requestQuote');
+
+      const callBtn = document.getElementById('serviceModalCall');
+      if (callBtn) callBtn.textContent = getUIString('contactUs');
+
+      if (typeof window.updateQuoteRequestModalUI === 'function') {
+        window.updateQuoteRequestModalUI(lang);
+      }
+    }
+
+    // ===== Publications / News / Newsletter translations (dynamic content) =====
+    const informationsDataEN = {
+      1: {
+        type: 'video',
+        title: 'EPE RETELEM SPA Company Presentation',
+        date: '15 March 2024',
+        duration: '4:32 min',
+        videoUrl: 'assets/3.mp4',
+        description: 'Discover our company, our values and our expertise through this presentation video. EPE RETELEM SPA is a key player in telecommunications and security in Algeria, with more than 50 years of experience serving our clients.'
+      },
+      2: {
+        type: 'article',
+        title: 'Inauguration of our New Headquarters',
+        date: '28 February 2024',
+        readTime: 'Reading 5 min',
+        content: `
+          <h2>Designed for innovation</h2>
+          <p>We are proud to inaugurate our new headquarters at the heart of the city, equipped with the latest technologies to better serve our clients.</p>
+          <h3>A modern, collaboration-focused space</h3>
+          <p>The building was created to foster innovation and teamwork, including advanced infrastructure and dedicated training rooms.</p>
+        `
+      },
+      3: {
+        type: 'video',
+        title: 'Our Cybersecurity Solutions',
+        date: '10 February 2024',
+        duration: '7:15 min',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        description: 'Discover how our cybersecurity solutions protect organizations against digital threats, using a complete approach that covers prevention, detection and incident response.'
+      },
+      4: {
+        type: 'article',
+        title: 'New Strategic Partnership with Cisco',
+        date: '5 January 2024',
+        readTime: 'Reading 8 min',
+        content: `
+          <h2>Building stronger network infrastructures</h2>
+          <p>We are pleased to announce a new strategic partnership with Cisco, enabling us to offer more secure and high-performance network solutions to our clients.</p>
+          <h3>Expert training and certification</h3>
+          <p>Our teams have completed intensive training and obtained Cisco certifications to deploy complex solutions with recognized expertise.</p>
+        `
+      },
+      5: {
+        type: 'video',
+        title: 'Client Testimonial: Company XYZ',
+        date: '20 December 2023',
+        duration: '5:45 min',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        description: "Discover Company XYZ's testimonial about their experience with our telecommunications solutions and the benefits they gained from our support."
+      },
+      6: {
+        type: 'article',
+        title: 'Launch of our New Training Program',
+        date: '15 November 2023',
+        readTime: 'Reading 6 min',
+        content: `
+          <h2>Training for the next generation of experts</h2>
+          <p>Our professional training center announces new certification programs in cybersecurity and networks, designed for professionals who want to expand their skills.</p>
+          <p>Registrations for the next session are now open—contact us for program details and admission conditions.</p>
+        `
+      }
+    };
+
+    const informationsDataAR = {
+      1: {
+        type: 'video',
+        title: 'عرض شركة EPE RETELEM SPA',
+        date: '15 مارس 2024',
+        duration: '4:32 دقيقة',
+        videoUrl: 'assets/3.mp4',
+        description: 'اكتشف شركتنا وقيمنا وخبرتنا عبر فيديو العرض هذا. تعد EPE RETELEM SPA لاعبًا رئيسيًا في مجال الاتصالات والأمن في الجزائر، بخبرة تتجاوز 50 عامًا في خدمة عملائنا.'
+      },
+      2: {
+        type: 'article',
+        title: 'افتتاح مقرّنا الجديد',
+        date: '28 فبراير 2024',
+        readTime: 'قراءة 5 دقائق',
+        content: `
+          <h2>مبنى مصمم للابتكار</h2>
+          <p>نفخر بافتتاح مقرّنا الجديد في قلب المدينة والمزود بأحدث التقنيات لتقديم خدمة أفضل لعملائنا.</p>
+          <h3>مساحة حديثة تعزز التعاون</h3>
+          <p>صُمم المبنى لدعم الابتكار والعمل الجماعي، ويتضمن بنى متقدمة وغرف تدريب مخصصة.</p>
+        `
+      },
+      3: {
+        type: 'video',
+        title: 'حلولنا للأمن السيبراني',
+        date: '10 فبراير 2024',
+        duration: '7:15 دقائق',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        description: 'اكتشف كيف تحمي حلولنا للأمن السيبراني المؤسسات من التهديدات الرقمية عبر مقاربة شاملة تشمل الوقاية والكشف والاستجابة للحوادث.'
+      },
+      4: {
+        type: 'article',
+        title: 'شراكة استراتيجية جديدة مع Cisco',
+        date: '5 يناير 2024',
+        readTime: 'قراءة 8 دقائق',
+        content: `
+          <h2>تعزيز بنى شبكات أقوى</h2>
+          <p>يسعدنا الإعلان عن شراكة استراتيجية جديدة مع Cisco، ما يتيح لنا تقديم حلول شبكات أكثر أمانًا وأداءً لعملائنا.</p>
+          <h3>تدريب واعتماد الخبراء</h3>
+          <p>أنهت فرقنا تدريبًا مكثفًا وحصلت على شهادات Cisco لتقديم حلول معقدة بخبرة معترف بها.</p>
+        `
+      },
+      5: {
+        type: 'video',
+        title: 'شهادة عميل: الشركة XYZ',
+        date: '20 ديسمبر 2023',
+        duration: '5:45 دقيقة',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        description: 'استمع إلى شهادة الشركة XYZ حول تجربتها مع حلول الاتصالات لدينا والفوائد التي حققتها من دعمنا.'
+      },
+      6: {
+        type: 'article',
+        title: 'إطلاق برنامجنا التدريبي الجديد',
+        date: '15 نوفمبر 2023',
+        readTime: 'قراءة 6 دقائق',
+        content: `
+          <h2>تدريب جيل الخبراء القادم</h2>
+          <p>يعلن مركزنا للتدريب المهني عن برامج اعتماد جديدة في الأمن السيبراني والشبكات، مناسبة للمتخصصين الذين يرغبون في تطوير مهاراتهم.</p>
+          <p>التسجيل للجلسة القادمة مفتوح الآن—تواصل معنا للحصول على تفاصيل البرامج وشروط القبول.</p>
+        `
+      }
+    };
+
+    const newsDataEN = {
+      featured: [
+        {
+          id: 1,
+          title: 'Opening of our Cybersecurity Training Center',
+                excerpt: 'We are proud to announce the official opening of our specialized cybersecurity training center, equipped with the latest technologies to train tomorrow\'s experts.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=600&fit=crop',
+          date: '15 March 2024',
+          type: 'Article'
+        },
+        {
+          id: 2,
+          title: 'Cisco Strategic Partnership for Network Infrastructures',
+          excerpt: 'Signing a new partnership with Cisco to develop innovative network solutions for Algerian businesses.',
+          category: 'partnerships',
+          image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop',
+          date: '10 March 2024',
+          type: 'Press release'
+        },
+        {
+          id: 3,
+          title: 'Launch of the Smart City Project in Algiers',
+          excerpt: 'We are deploying a complete smart city infrastructure integrating surveillance, connectivity and data management.',
+          category: 'projects',
+          image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1200&h=600&fit=crop',
+          date: '5 March 2024',
+          type: 'Project'
+        }
+      ],
+      regular: [
+        {
+          id: 4,
+          title: 'Certification Training in Advanced Networks',
+          excerpt: 'Our training center offers a new advanced networks certification for sector professionals.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
+          date: '28 February 2024',
+          type: 'Training'
+        },
+        {
+          id: 5,
+          title: 'Participation in the International Telecommunications Exhibition',
+          excerpt: 'Highlights from SIT 2024 where we showcased our latest connectivity innovations.',
+          category: 'events',
+          image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+          date: '20 February 2024',
+          type: 'Event'
+        },
+        {
+          id: 6,
+          title: 'Deployment of Fiber Optics in 10 New Wilayas',
+          excerpt: 'Extending our fiber network to cover 10 new wilayas and improve national connectivity.',
+          category: 'projects',
+          image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+          date: '15 February 2024',
+          type: 'Project'
+        },
+        {
+          id: 7,
+          title: 'New AI Video Surveillance Solution',
+          excerpt: 'Launching our new intelligent video surveillance solution with facial recognition and advanced analytics.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop',
+          date: '10 February 2024',
+          type: 'Innovation'
+        },
+        {
+          id: 8,
+          title: 'Partnership with the Ministry of Education',
+          excerpt: 'Collaboration with the ministry to equip 100 schools with advanced network and security solutions.',
+          category: 'partnerships',
+          image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
+          date: '5 February 2024',
+          type: 'Partnership'
+        },
+        {
+          id: 9,
+          title: 'Webinar on Digital Transformation',
+          excerpt: 'Replay available of our webinar on the challenges of digital transformation for Algerian enterprises.',
+          category: 'events',
+          image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=600&fit=crop',
+          date: '1 February 2024',
+          type: 'Webinar'
+        }
+      ]
+    };
+
+    const newsDataAR = {
+      featured: [
+        {
+          id: 1,
+          title: 'افتتاح مركزنا للتدريب في الأمن السيبراني',
+          excerpt: 'نفخر بإعلان الافتتاح الرسمي لمركزنا المتخصص في الأمن السيبراني، المجهز بأحدث التقنيات لتدريب خبراء الغد.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=600&fit=crop',
+          date: '15 مارس 2024',
+          type: 'مقال'
+        },
+        {
+          id: 2,
+          title: 'شراكة استراتيجية مع Cisco لبنى الشبكات',
+          excerpt: 'توقيع شراكة جديدة مع Cisco لتطوير حلول شبكية مبتكرة للشركات الجزائرية.',
+          category: 'partnerships',
+          image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop',
+          date: '10 مارس 2024',
+          type: 'بيان صحفي'
+        },
+        {
+          id: 3,
+          title: 'إطلاق مشروع المدينة الذكية في الجزائر العاصمة',
+          excerpt: 'نقوم بنشر بنية متكاملة للمدينة الذكية تجمع المراقبة والاتصال وإدارة البيانات.',
+          category: 'projects',
+          image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1200&h=600&fit=crop',
+          date: '5 مارس 2024',
+          type: 'مشروع'
+        }
+      ],
+      regular: [
+        {
+          id: 4,
+          title: 'تدريب معتمد في الشبكات المتقدمة',
+          excerpt: 'يقدم مركزنا شهادة جديدة في الشبكات المتقدمة للمختصين في القطاع.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
+          date: '28 فبراير 2024',
+          type: 'تدريب'
+        },
+        {
+          id: 5,
+          title: 'المشاركة في المعرض الدولي للاتصالات',
+          excerpt: 'ملخص مشاركتنا في SIT 2024 حيث عرضنا أحدث ابتكاراتنا في مجال الاتصال.',
+          category: 'events',
+          image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+          date: '20 فبراير 2024',
+          type: 'فعالية'
+        },
+        {
+          id: 6,
+          title: 'نشر الألياف البصرية في 10 ولايات جديدة',
+          excerpt: 'توسيع شبكة الألياف لتغطية 10 ولايات وتحسين الاتصال الوطني.',
+          category: 'projects',
+          image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+          date: '15 فبراير 2024',
+          type: 'مشروع'
+        },
+        {
+          id: 7,
+          title: 'حل جديد للمراقبة بالفيديو مدعوم بالذكاء الاصطناعي',
+          excerpt: 'إطلاق حلنا الجديد للمراقبة الذكية بالفيديو مع التعرّف على الوجوه وتحليلات متقدمة.',
+          category: 'innovations',
+          image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop',
+          date: '10 فبراير 2024',
+          type: 'ابتكار'
+        },
+        {
+          id: 8,
+          title: 'شراكة مع وزارة التعليم',
+          excerpt: 'تعاون مع الوزارة لتمكين 100 مدرسة بحلول شبكات وأمن متقدمة.',
+          category: 'partnerships',
+          image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
+          date: '5 فبراير 2024',
+          type: 'شراكة'
+        },
+        {
+          id: 9,
+          title: 'ندوة عبر الإنترنت حول التحول الرقمي',
+          excerpt: 'إعادة متاحة لندوتنا حول تحديات التحول الرقمي للمؤسسات الجزائرية.',
+          category: 'events',
+          image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=600&fit=crop',
+          date: '1 فبراير 2024',
+          type: 'ندوة'
+        }
+      ]
+    };
+
+    const newsletterDetailsEN = {
+      1: {
+        title: 'A New Era for Cybersecurity Training in Algeria',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=600&fit=crop',
+        date: '15 March 2024',
+        type: 'Article',
+        content: `
+          <h2>A New Era for Cybersecurity Training in Algeria</h2>
+          <p>We are proud to announce the official opening of our specialized cybersecurity training center—an investment in our country\'s digital future.</p>
+          <h3>Cutting-edge equipment</h3>
+          <ul>
+            <li>Cyberattack simulation laboratories</li>
+            <li>Secure testing environments</li>
+            <li>Virtual reality training platforms</li>
+          </ul>
+        `
+      },
+      2: {
+        title: 'Strategic Partnership with Cisco for Network Infrastructures',
+        category: 'partnerships',
+        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop',
+        date: '10 March 2024',
+        type: 'Press release',
+        content: `
+          <h2>Strengthening our technological ecosystem</h2>
+          <p>RETELEM and Cisco join forces to develop innovative network solutions tailored to the Algerian market.</p>
+          <h3>Partnership objectives</h3>
+          <ul>
+            <li>Tailored network solutions for Algerian enterprises</li>
+            <li>Technology transfer and know-how</li>
+            <li>Training and certification of technical teams</li>
+          </ul>
+        `
+      },
+      3: {
+        title: 'Launch of the Smart City Project in Algiers',
+        category: 'projects',
+        image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1200&h=600&fit=crop',
+        date: '5 March 2024',
+        type: 'Project',
+        content: `
+          <h2>Transforming Algiers into a Smart and Connected City</h2>
+          <p>Deployment of a complete smart city infrastructure integrating surveillance, connectivity and data management.</p>
+          <h3>Project components</h3>
+          <ul>
+            <li>IoT sensor network for environmental monitoring</li>
+            <li>Intelligent traffic management</li>
+            <li>Connected, eco-energy street lighting</li>
+          </ul>
+        `
+      },
+      4: {
+        title: 'Certified Training in Advanced Networks',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
+        date: '28 February 2024',
+        type: 'Training',
+        content: `
+          <h2>Excellence in training for advanced networks</h2>
+          <p>Our training center expands its offer with a new advanced networks certification to meet growing market needs.</p>
+          <h3>Certification program</h3>
+          <ul>
+            <li>SD-WAN network architecture</li>
+            <li>Enterprise network security</li>
+            <li>Network function virtualization (NFV)</li>
+          </ul>
+        `
+      },
+      5: {
+        title: 'Participation in the International Telecommunications Exhibition',
+        category: 'events',
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+        date: '20 February 2024',
+        type: 'Event',
+        content: `
+          <h2>RETELEM shines at the International Telecommunications Exhibition 2024</h2>
+          <p>Our participation in SIT 2024 highlighted our key connectivity innovations and digital solutions.</p>
+        `
+      },
+      6: {
+        title: 'Deployment of Fiber Optics in 10 New Wilayas',
+        category: 'projects',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+        date: '15 February 2024',
+        type: 'Project',
+        content: `
+          <h2>Massive expansion of the fiber optic network</h2>
+          <p>Our fiber network expansion program covers 10 new wilayas to improve national connectivity.</p>
+        `
+      },
+      7: {
+        title: 'New AI Video Surveillance Solution',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop',
+        date: '10 February 2024',
+        type: 'Innovation',
+        content: `
+          <h2>Artificial intelligence at the service of security</h2>
+          <p>Launch of our intelligent video surveillance solution with facial recognition and advanced analytics.</p>
+        `
+      },
+      8: {
+        title: 'Partnership with the Ministry of Education',
+        category: 'partnerships',
+        image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
+        date: '5 February 2024',
+        type: 'Partnership',
+        content: `
+          <h2>Digitalization of the education sector</h2>
+          <p>Collaboration with the ministry to equip 100 schools with advanced network and security solutions.</p>
+        `
+      },
+      9: {
+        title: 'Webinar on Digital Transformation',
+        category: 'events',
+        image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=600&fit=crop',
+        date: '1 February 2024',
+        type: 'Webinar',
+        content: `
+          <h2>Digital transformation: challenges and opportunities</h2>
+          <p>Replay available of our webinar on the challenges of digital transformation for Algerian enterprises.</p>
+        `
+      }
+    };
+
+    const newsletterDetailsAR = {
+      1: {
+        title: 'عصر جديد لتدريب الأمن السيبراني في الجزائر',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&h=600&fit=crop',
+        date: '15 مارس 2024',
+        type: 'مقال',
+        content: `
+          <h2>عصر جديد لتدريب الأمن السيبراني في الجزائر</h2>
+          <p>ننفخر بإعلان الافتتاح الرسمي لمركزنا المتخصص في الأمن السيبراني—استثمار في مستقبلنا الرقمي.</p>
+          <h3>معدات متقدمة</h3>
+          <ul>
+            <li>مختبرات محاكاة هجمات سيبرانية</li>
+            <li>بيئات اختبار آمنة</li>
+            <li>منصات تدريب بالواقع الافتراضي</li>
+          </ul>
+        `
+      },
+      2: {
+        title: 'شراكة استراتيجية مع Cisco لبنى الشبكات',
+        category: 'partnerships',
+        image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=600&fit=crop',
+        date: '10 مارس 2024',
+        type: 'بيان صحفي',
+        content: `
+          <h2>تعزيز منظومتنا التكنولوجية</h2>
+          <p>تتعاون RETELEM مع Cisco لتطوير حلول شبكات مبتكرة ومناسبة للسوق الجزائري.</p>
+          <h3>أهداف الشراكة</h3>
+          <ul>
+            <li>حلول شبكات مخصصة للمؤسسات الجزائرية</li>
+            <li>نقل التكنولوجيا والمعرفة</li>
+            <li>تدريب واعتماد الفرق التقنية</li>
+          </ul>
+        `
+      },
+      3: {
+        title: 'إطلاق مشروع المدينة الذكية في الجزائر العاصمة',
+        category: 'projects',
+        image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1200&h=600&fit=crop',
+        date: '5 مارس 2024',
+        type: 'مشروع',
+        content: `
+          <h2>تحويل الجزائر العاصمة إلى مدينة ذكية ومتصلة</h2>
+          <p>نشر بنية متكاملة للمدينة الذكية تجمع المراقبة والاتصال وإدارة البيانات.</p>
+          <h3>مكونات المشروع</h3>
+          <ul>
+            <li>شبكة حساسات IoT للمراقبة البيئية</li>
+            <li>نظام ذكي لإدارة حركة المرور</li>
+            <li>إنارة عمومية متصلة وصديقة للبيئة</li>
+          </ul>
+        `
+      },
+      4: {
+        title: 'تدريب معتمد في الشبكات المتقدمة',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop',
+        date: '28 فبراير 2024',
+        type: 'تدريب',
+        content: `
+          <h2>التميز في التدريب على الشبكات المتقدمة</h2>
+          <p>يوسّع مركزنا عروضه باعتماد شهادة جديدة في الشبكات المتقدمة لتلبية احتياجات السوق المتزايدة.</p>
+          <h3>برنامج الاعتماد</h3>
+          <ul>
+            <li>معمارية شبكات SD-WAN</li>
+            <li>أمن الشبكات المؤسسية</li>
+            <li>افتراضية وظائف الشبكة (NFV)</li>
+          </ul>
+        `
+      },
+      5: {
+        title: 'المشاركة في المعرض الدولي للاتصالات',
+        category: 'events',
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop',
+        date: '20 فبراير 2024',
+        type: 'فعالية',
+        content: `
+          <h2>RETELEM تتألق في المعرض الدولي للاتصالات 2024</h2>
+          <p>أبرزت مشاركتنا في SIT 2024 ابتكاراتنا الرئيسية في مجال الاتصال وحلولنا الرقمية.</p>
+        `
+      },
+      6: {
+        title: 'نشر الألياف البصرية في 10 ولايات جديدة',
+        category: 'projects',
+        image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop',
+        date: '15 فبراير 2024',
+        type: 'مشروع',
+        content: `
+          <h2>توسيع ضخم لشبكة الألياف البصرية</h2>
+          <p>برنامج توسعة شبكة الألياف يغطي 10 ولايات جديدة لتحسين الاتصال الوطني.</p>
+        `
+      },
+      7: {
+        title: 'حل جديد للمراقبة بالفيديو مدعوم بالذكاء الاصطناعي',
+        category: 'innovations',
+        image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&h=600&fit=crop',
+        date: '10 فبراير 2024',
+        type: 'ابتكار',
+        content: `
+          <h2>الذكاء الاصطناعي في خدمة الأمن</h2>
+          <p>إطلاق حلنا الذكي للمراقبة بالفيديو مع التعرّف على الوجوه وتحليلات متقدمة.</p>
+        `
+      },
+      8: {
+        title: 'شراكة مع وزارة التعليم',
+        category: 'partnerships',
+        image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop',
+        date: '5 فبراير 2024',
+        type: 'شراكة',
+        content: `
+          <h2>رقمنة قطاع التعليم</h2>
+          <p>تعاون مع الوزارة لتمكين 100 مدرسة بحلول شبكات وأمن متقدمة.</p>
+        `
+      },
+      9: {
+        title: 'ندوة عبر الإنترنت حول التحول الرقمي',
+        category: 'events',
+        image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=600&fit=crop',
+        date: '1 فبراير 2024',
+        type: 'ندوة',
+        content: `
+          <h2>التحول الرقمي: التحديات والفرص</h2>
+          <p>إعادة متاحة لندوتنا حول تحديات التحول الرقمي للمؤسسات الجزائرية.</p>
+        `
+      }
+    };
+
+    function updateInformationStaticUI() {
+      const publicationsTitle = document.querySelector('.informations-section .section-title');
+      if (publicationsTitle) publicationsTitle.textContent = getUIString('publicationsTitle');
+
+      const publicationsSubtitle = document.querySelector('.informations-section .section-subtitle');
+      if (publicationsSubtitle) publicationsSubtitle.textContent = getUIString('publicationsSubtitle');
+
+      document.querySelectorAll('.informations-section .info-card[data-info]').forEach(card => {
+        const id = card.getAttribute('data-info');
+        const info = informationsData[id];
+        if (!info) return;
+
+        const titleEl = card.querySelector('.info-card-title');
+        const excerptEl = card.querySelector('.info-card-excerpt');
+        const dateSpan = card.querySelector('.info-card-date span');
+        const typeSpan = card.querySelector('.info-card-type span');
+        const badgeEl = card.querySelector('.info-card-badge');
+
+        if (titleEl) titleEl.textContent = info.title;
+        if (excerptEl) {
+          let excerpt = info.description || '';
+          // For article types, we may not have a separate description; derive a short excerpt from content.
+          if (!excerpt && info.type === 'article' && info.content) {
+            const match = info.content.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+            if (match && match[1]) excerpt = match[1].replace(/<[^>]+>/g, '').trim();
+          }
+          excerptEl.textContent = excerpt;
+        }
+        if (dateSpan) dateSpan.textContent = info.date || '';
+
+        if (typeSpan) {
+          typeSpan.textContent = info.type === 'video' ? info.duration : info.readTime;
+        }
+
+        if (badgeEl) badgeEl.textContent = info.type === 'video' ? getUIString('videoBadge') : getUIString('articleBadge');
+      });
+    }
+
+    function updateNewsStaticUI() {
+      const newsTitle = document.querySelector('.news-gallery-section .section-title');
+      if (newsTitle) newsTitle.textContent = getUIString('newsSectionTitle');
+
+      const newsSearch = document.querySelector('.news-search input');
+      if (newsSearch) newsSearch.placeholder = getUIString('newsSearchPlaceholder');
+
+      // Tabs labels
+      document.querySelectorAll('.news-tab').forEach(tab => {
+        const cat = tab.getAttribute('data-category');
+        if (cat) tab.textContent = getCategoryLabel(cat);
+      });
+
+      const viewAll = document.querySelector('.news-archive-cta a');
+      if (viewAll) viewAll.textContent = getUIString('viewAllNews');
+    }
+
+    function updateNewsletterStaticUI() {
+      const relatedHeading = document.querySelector('#newsletterModal .related-news h3');
+      if (relatedHeading) relatedHeading.textContent = getUIString('relatedNewsHeading');
+
+      const shareBtn = document.querySelector('#newsletterModal button[onclick="shareNewsletter()"]');
+      if (shareBtn) shareBtn.innerHTML = `<i class="fas fa-share"></i> ${getUIString('shareButton')}`;
+
+      const printBtn = document.querySelector('#newsletterModal button[onclick="printNewsletter()"]');
+      if (printBtn) printBtn.innerHTML = `<i class="fas fa-print"></i> ${getUIString('printButton')}`;
+    }
+
+    // ===== Contact section (Agencies map) =====
+    const agenciesById = {
+      alger_dg: {
+        coords: [36.74, 3.06],
+        fr: { name: 'Direction Générale — Alger' },
+        en: { name: 'General Directorate — Algiers' },
+        ar: { name: 'المديرية العامة — الجزائر' },
+        email: 'dg@retelem.dz',
+        phone: '+213 (0)00 00 00 00',
+        isDG: true                 // flag to give it a red pin
+      },
+      annaba: {
+        coords: [36.9, 7.77],
+        fr: { name: 'Agence Annaba' },
+        en: { name: 'Annaba Agency' },
+        ar: { name: 'وكالة عنابة' },
+        email: 'annaba@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      batna: {
+        coords: [35.56, 6.17],
+        fr: { name: 'Agence Batna' },
+        en: { name: 'Batna Agency' },
+        ar: { name: 'وكالة باتنة' },
+        email: 'batna@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      bejaia: {
+        coords: [36.75, 5.06],
+        fr: { name: 'Agence Béjaïa' },
+        en: { name: 'Béjaïa Agency' },
+        ar: { name: 'وكالة بجاية' },
+        email: 'bejaia@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      blida: {
+        coords: [36.47, 2.83],
+        fr: { name: 'Agence Blida' },
+        en: { name: 'Blida Agency' },
+        ar: { name: 'وكالة البليدة' },
+        email: 'blida@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      chlef: {
+        coords: [36.17, 1.33],
+        fr: { name: 'Agence Chlef' },
+        en: { name: 'Chlef Agency' },
+        ar: { name: 'وكالة الشلف' },
+        email: 'chlef@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      constantine: {
+        coords: [36.36, 6.61],
+        fr: { name: 'Agence Constantine' },
+        en: { name: 'Constantine Agency' },
+        ar: { name: 'وكالة قسنطينة' },
+        email: 'constantine@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      guelma: {
+        coords: [36.46, 7.43],
+        fr: { name: 'Agence Guelma' },
+        en: { name: 'Guelma Agency' },
+        ar: { name: 'وكالة قالمة' },
+        email: 'guelma@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      jijel: {
+        coords: [36.82, 5.77],
+        fr: { name: 'Agence Jijel' },
+        en: { name: 'Jijel Agency' },
+        ar: { name: 'وكالة جيجل' },
+        email: 'jijel@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      medea: {
+        coords: [36.27, 2.75],
+        fr: { name: 'Agence Médéa' },
+        en: { name: 'Médéa Agency' },
+        ar: { name: 'وكالة المدية' },
+        email: 'medea@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      oran: {
+        coords: [35.7, -0.64],
+        fr: { name: 'Agence Oran' },
+        en: { name: 'Oran Agency' },
+        ar: { name: 'وكالة وهران' },
+        email: 'oran@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      setif: {
+        coords: [36.19, 5.41],
+        fr: { name: 'Agence Sétif' },
+        en: { name: 'Sétif Agency' },
+        ar: { name: 'وكالة سطيف' },
+        email: 'setif@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      skikda: {
+        coords: [36.88, 6.91],
+        fr: { name: 'Agence Skikda' },
+        en: { name: 'Skikda Agency' },
+        ar: { name: 'وكالة سكيكدة' },
+        email: 'skikda@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      },
+      tiziouzou: {
+        coords: [36.72, 4.05],
+        fr: { name: 'Agence Tizi Ouzou' },
+        en: { name: 'Tizi Ouzou Agency' },
+        ar: { name: 'وكالة تيزي وزو' },
+        email: 'tizi-ouzou@retelem.dz',
+        phone: '+213 (0)00 00 00 00'
+      }
+    };
+
+    let agenciesMap = null;
+    let agenciesMarkersLayer = null;
+    let agenciesMapInitialized = false;
+
+    function getAgencyName(agencyId, lang) {
+      const agency = agenciesById[agencyId];
+      if (!agency) return agencyId;
+      const L = agency[lang] || agency.fr || {};
+      return L.name || agencyId;
+    }
+
+    function ensureAgenciesMap() {
+      if (agenciesMapInitialized) return;
+      const mapEl = document.getElementById('agenciesMap');
+      if (!mapEl) return;
+      if (!window.L || typeof window.L.map !== 'function') return;
+
+      agenciesMapInitialized = true;
+      agenciesMap = window.L.map(mapEl, {
+        center: [36.2, 4.0],   // northern Algeria
+        zoom: 6,
+        zoomControl: true,
+        scrollWheelZoom: false
+      });
+
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(agenciesMap);
+
+      agenciesMarkersLayer = window.L.layerGroup().addTo(agenciesMap);
+    }
+
+    function openAgencyModal(agencyId) {
+      const agency = agenciesById[agencyId];
+      if (!agency) return;
+
+      const lang = window.i18nLang || 'fr';
+      const modal = document.getElementById('agencyModal');
+      const title = document.getElementById('agencyModalTitle');
+      const emailEl = document.getElementById('agencyEmailValue');
+      const phoneEl = document.getElementById('agencyPhoneValue');
+
+      if (title) title.textContent = getAgencyName(agencyId, lang);
+
+      if (emailEl) {
+        emailEl.textContent = agency.email || '—';
+        emailEl.href = agency.email ? `mailto:${agency.email}` : '#';
+      }
+      if (phoneEl) {
+        phoneEl.textContent = agency.phone || '—';
+        phoneEl.href = agency.phone ? `tel:${agency.phone.replace(/\s|\(|\)|-/g, '')}` : '#';
+      }
+
+      if (modal) {
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeAgencyModal() {
+      const modal = document.getElementById('agencyModal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function renderAgenciesMarkers(lang) {
+      ensureAgenciesMap();
+      if (!agenciesMap || !agenciesMarkersLayer) return;
+
+      agenciesMarkersLayer.clearLayers();
+
+      const redIcon = window.L.divIcon({
+        className: '',
+        html: `
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="40" viewBox="0 0 28 40">
+            <path d="M14 0C6.268 0 0 6.268 0 14c0 9.333 14 26 14 26S28 23.333 28 14C28 6.268 21.732 0 14 0z"
+                  fill="#e53e3e" stroke="#9b1a1a" stroke-width="1.5"/>
+            <circle cx="14" cy="14" r="5.5" fill="#fff" opacity="0.9"/>
+          </svg>`,
+        iconSize: [28, 40],
+        iconAnchor: [14, 40],
+        tooltipAnchor: [0, -42]
+      });
+
+      const allCoords = [];   // ← collect every coord
+
+      Object.keys(agenciesById).forEach((id) => {
+        const agency = agenciesById[id];
+        const name = getAgencyName(id, lang);
+
+        const marker = agency.isDG
+          ? window.L.marker(agency.coords, { title: name, icon: redIcon })
+          : window.L.marker(agency.coords, { title: name });
+
+        marker.on('click', () => openAgencyModal(id));
+        marker.bindTooltip(name, { direction: 'top', offset: [0, -8], opacity: 0.95 });
+        marker.addTo(agenciesMarkersLayer);
+
+        allCoords.push(agency.coords);   // ← push each coord
+      });
+
+      // Zoom the map to fit all markers with comfortable padding
+      if (allCoords.length > 0) {
+        agenciesMap.fitBounds(allCoords, { padding: [40, 40] });
+      }
+    }
+
+    function updateContactStaticUI(lang) {
+      const t = {
+        fr: {
+          title: 'Contactez-nous',
+          subtitle: "Trouvez l’agence la plus proche et contactez-nous directement.",
+          legend: "Cliquez sur une agence pour ouvrir le formulaire de contact",
+          agencyInfo: "Informations de l’agence",
+          email: 'Email',
+          phone: 'Téléphone',
+          form: 'Formulaire de contact',
+          name: 'Nom complet',
+          emailInput: 'Email',
+          phoneInput: 'Téléphone',
+          message: 'Message',
+          send: 'Envoyer',
+          close: 'Fermer',
+          sent: 'Merci. Votre message a été envoyé (démo).'
+        },
+        en: {
+          title: 'Contact us',
+          subtitle: 'Find the nearest agency and contact us directly.',
+          legend: 'Click an agency to open the contact form',
+          agencyInfo: 'Agency information',
+          email: 'Email',
+          phone: 'Phone',
+          form: 'Contact form',
+          name: 'Full name',
+          emailInput: 'Email',
+          phoneInput: 'Phone',
+          message: 'Message',
+          send: 'Send',
+          close: 'Close',
+          sent: 'Thanks. Your message has been sent (demo).'
+        },
+        ar: {
+          title: 'اتصل بنا',
+          subtitle: 'اعثر على أقرب وكالة وتواصل معنا مباشرة.',
+          legend: 'انقر على وكالة لفتح نموذج التواصل',
+          agencyInfo: 'معلومات الوكالة',
+          email: 'البريد الإلكتروني',
+          phone: 'الهاتف',
+          form: 'نموذج التواصل',
+          name: 'الاسم الكامل',
+          emailInput: 'البريد الإلكتروني',
+          phoneInput: 'الهاتف',
+          message: 'الرسالة',
+          send: 'إرسال',
+          close: 'إغلاق',
+          sent: 'شكرًا لك. تم إرسال رسالتك (تجريبيًا).'
+        }
+      };
+
+      const S = t[lang] || t.fr;
+      const title = document.getElementById('contactSectionTitle');
+      const subtitle = document.getElementById('contactSectionSubtitle');
+      const legend = document.getElementById('agenciesLegendText');
+      if (title) title.textContent = S.title;
+      if (subtitle) subtitle.textContent = S.subtitle;
+      if (legend) legend.textContent = S.legend;
+
+      const infoHeading = document.getElementById('agencyInfoHeading');
+      const formHeading = document.getElementById('agencyFormHeading');
+      if (infoHeading) infoHeading.textContent = S.agencyInfo;
+      if (formHeading) formHeading.textContent = S.form;
+
+      const emailLabel = document.getElementById('agencyEmailLabel');
+      const phoneLabel = document.getElementById('agencyPhoneLabel');
+      if (emailLabel) emailLabel.textContent = S.email;
+      if (phoneLabel) phoneLabel.textContent = S.phone;
+
+      const nameLabel = document.getElementById('agencyNameLabel');
+      const emailInputLabel = document.getElementById('agencyEmailInputLabel');
+      const phoneInputLabel = document.getElementById('agencyPhoneInputLabel');
+      const messageLabel = document.getElementById('agencyMessageLabel');
+      if (nameLabel) nameLabel.textContent = S.name;
+      if (emailInputLabel) emailInputLabel.textContent = S.emailInput;
+      if (phoneInputLabel) phoneInputLabel.textContent = S.phoneInput;
+      if (messageLabel) messageLabel.textContent = S.message;
+
+      const sendBtn = document.getElementById('agencySendBtn');
+      if (sendBtn) sendBtn.textContent = S.send;
+
+      // Re-render markers with translated names
+      renderAgenciesMarkers(lang);
+    }
+
+    function initAgencyModalBehavior() {
+      const modal = document.getElementById('agencyModal');
+      const closeBtn = document.getElementById('agencyModalClose');
+      const form = document.getElementById('agencyContactForm');
+
+      if (closeBtn) closeBtn.addEventListener('click', closeAgencyModal);
+
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeAgencyModal();
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeAgencyModal();
+      });
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const lang = window.i18nLang || 'fr';
+          const msgs = {
+            fr: 'Merci. Votre message a été envoyé (démo).',
+            en: 'Thanks. Your message has been sent (demo).',
+            ar: 'شكرًا لك. تم إرسال رسالتك (تجريبيًا).'
+          };
+          alert(msgs[lang] || msgs.fr);
+          try { form.reset(); } catch (_) { /* ignore */ }
+          closeAgencyModal();
+        });
+      }
+    }
+
+    function updateMainStaticUI(lang) {
+      const L = {
+        fr: {
+          langLabel: 'Langue',
+          navHome: 'Accueil',
+          navCompany: 'Notre Société',
+          navServices: 'Nos activités',
+          navPartners: 'Nos partenaires',
+          navNews: 'Actualités',
+          navContact: 'Contact',
+          navStory: 'Notre histoire',
+          navValues: 'Nos valeurs',
+          navCommitment: 'Notre engagement',
+          navQuality: 'Qualité',
+          navStrengths: 'Nos atouts',
+          headerSearchPlaceholder: 'Rechercher services, partenaires, actualités...',
+          mobileSearchAria: 'Rechercher',
+          mobileMenuAria: 'Afficher le menu',
+
+          heroTitle: 'Solutions Télécommunications & Sécurité',
+          heroSubtitle: "Plus de 50 ans d'expertise au service de votre infrastructure numérique",
+          heroPrimaryCta: 'Nos Solutions',
+          heroSecondaryCta: 'Contactez-nous',
+
+          ceoTitle: 'Le Mot du PDG',
+          ceoQuote: "« Notre succès repose sur notre capacité à offrir des services et des solutions à haute expertise technologique, afin d'accompagner nos clients dans un environnement en évolution permanente. »",
+          ceoMsg1: "Depuis sa création en 1971, sous le nom de SONATITE, RETELEM n'a cessé de relever des défis avec succès, en s'imposant comme pionnière dans la réalisation des infrastructures de télécommunications en Algérie, pour devenir aujourd’hui le leader des services et de l’intégration de solutions informatiques, réseaux d'entreprise et de sécurité.",
+          ceoMsg2: "Acteur clé des Solutions & Services à forte valeur ajoutée, RETELEM met l'expertise de ses équipes au service des entreprises afin de répondre à leurs besoins et d'accompagner durablement leurs performances.",
+          ceoRole: 'Président-Directeur Général',
+
+          statsTitle: 'Performance & Impact',
+          statsSubtitle: "EPE RETELEM SPA doit son succès à l'engagement, au savoir-faire et à l'expertise des femmes et des hommes qui contribuent chaque jour à notre succès.",
+          stat1Label: "Années d'excellence",
+          stat1Desc: 'Depuis 1971 au service de l’Algérie',
+          stat2Label: 'Projets livrés',
+          stat2Desc: 'Implémentations réussies',
+          stat3Label: "Clients d'entreprise",
+          stat3Desc: 'Organisations satisfaites',
+          stat4Label: 'Support technique',
+          stat4Desc: 'Assistance continue',
+          statsFooterCta: 'Découvrez nos solutions',
+
+          footerNavTitle: 'Navigation',
+          footerServicesTitle: 'Services',
+          footerContactTitle: 'Contact',
+          footerNewsletterTitle: 'Newsletter',
+          footerDescription: 'Leader en solutions de télécommunications et sécurité en Algérie avec plus de 50 ans d\'expérience.',
+          footerNavHome: 'Accueil',
+          footerNavCompany: 'Notre Société',
+          footerNavServices: 'Nos activités',
+          footerNavPartners: 'Nos partenaires',
+          footerNavNews: 'Actualités',
+          footerNewsletterText: 'Restez informé de nos dernières actualités',
+          footerEmailPlaceholder: 'Votre email',
+          legalPolicy: 'Politique de confidentialité',
+          legalNotices: 'Mentions légales',
+          legalCookies: 'Cookies',
+          copyright: '&copy; 2024 EPE RETELEM SPA. Tous droits réservés.'
+        },
+        en: {
+          langLabel: 'Language',
+          navHome: 'Home',
+          navCompany: 'Our Company',
+          navServices: 'Our Activities',
+          navPartners: 'Our Partners',
+          navNews: 'News',
+          navContact: 'Contact',
+          navStory: 'Our story',
+          navValues: 'Our values',
+          navCommitment: 'Our commitment',
+          navQuality: 'Quality',
+          navStrengths: 'Our strengths',
+          headerSearchPlaceholder: 'Search services, partners, news...',
+          mobileSearchAria: 'Search',
+          mobileMenuAria: 'Show menu',
+
+          heroTitle: 'Telecommunications & Security Solutions',
+          heroSubtitle: 'Over 50 years of expertise serving your digital infrastructure',
+          heroPrimaryCta: 'Our Solutions',
+          heroSecondaryCta: 'Contact us',
+
+          ceoTitle: 'CEO Message',
+          ceoQuote: '“Our success is built on our ability to deliver high-technology expertise services and solutions, supporting our clients in a constantly evolving environment.”',
+          ceoMsg1: 'Since its creation in 1971 under the name SONATITE, RETELEM has continuously met challenges with success, establishing itself as a pioneer in the deployment of telecommunications infrastructure in Algeria—today becoming a leader in services and the integration of IT, enterprise networking, and security solutions.',
+          ceoMsg2: 'A key player in high value-added Solutions & Services, RETELEM puts the expertise of its teams at the service of businesses to meet their needs and sustainably support their performance.',
+          ceoRole: 'Chairman & CEO',
+
+          statsTitle: 'Performance & Impact',
+          statsSubtitle: 'EPE RETELEM SPA owes its success to the commitment, know-how, and expertise of the women and men who contribute every day to our success.',
+          stat1Label: 'Years of Excellence',
+          stat1Desc: 'Since 1971 serving Algeria',
+          stat2Label: 'Projects Delivered',
+          stat2Desc: 'Successful implementations',
+          stat3Label: 'Enterprise Clients',
+          stat3Desc: 'Satisfied organizations',
+          stat4Label: 'Technical Support',
+          stat4Desc: 'Continuous assistance',
+          statsFooterCta: 'Explore our solutions',
+
+          footerNavTitle: 'Navigation',
+          footerServicesTitle: 'Services',
+          footerContactTitle: 'Contact',
+          footerNewsletterTitle: 'Newsletter',
+          footerDescription: 'Leader in telecommunications and security solutions in Algeria with over 50 years of experience.',
+          footerNavHome: 'Home',
+          footerNavCompany: 'Our Company',
+          footerNavServices: 'Our Activities',
+          footerNavPartners: 'Our Partners',
+          footerNavNews: 'News',
+          footerNewsletterText: 'Stay informed with our latest news',
+          footerEmailPlaceholder: 'Your email',
+          legalPolicy: 'Privacy Policy',
+          legalNotices: 'Legal Notices',
+          legalCookies: 'Cookies',
+          copyright: '&copy; 2024 EPE RETELEM SPA. All rights reserved.'
+        },
+        ar: {
+          langLabel: 'اللغة',
+          navHome: 'الرئيسية',
+          navCompany: 'شركتنا',
+          navServices: 'أنشطتنا',
+          navPartners: 'شركاؤنا',
+          navNews: 'الأخبار',
+          navContact: 'اتصل بنا',
+          navStory: 'قصتنا',
+          navValues: 'قيمنا',
+          navCommitment: 'التزامنا',
+          navQuality: 'الجودة',
+          navStrengths: 'نقاط قوتنا',
+          headerSearchPlaceholder: 'ابحث عن الخدمات والشركاء والأخبار...',
+          mobileSearchAria: 'بحث',
+          mobileMenuAria: 'إظهار القائمة',
+
+          heroTitle: 'حلول الاتصالات والأمن',
+          heroSubtitle: 'أكثر من 50 عامًا من الخبرة لخدمة بنيتكم الرقمية',
+          heroPrimaryCta: 'حلولنا',
+          heroSecondaryCta: 'اتصل بنا',
+
+          ceoTitle: 'رسالة المدير التنفيذي',
+          ceoQuote: '« يرتكز نجاحنا على قدرتنا على تقديم خدمات وحلول عالية الخبرة التقنية، بما يتيح لنا مرافقة عملائنا في بيئة دائمة التطور. »',
+          ceoMsg1: 'منذ تأسيسها عام 1971 تحت اسم SONATITE، لم تتوقف RETELEM عن مواجهة التحديات بنجاح، حيث رسّخت مكانتها كرائدة في إنجاز البنى التحتية للاتصالات في الجزائر، لتصبح اليوم رائدًا في الخدمات وتكامل حلول تكنولوجيا المعلومات وشبكات المؤسسات والأمن.',
+          ceoMsg2: 'وبصفتها فاعلًا رئيسيًا في الحلول والخدمات ذات القيمة المضافة العالية، تضع RETELEM خبرات فرقها في خدمة المؤسسات لتلبية احتياجاتها ودعم أدائها على المدى الطويل.',
+          ceoRole: 'رئيس مجلس الإدارة والرئيس التنفيذي',
+
+          statsTitle: 'الأداء والأثر',
+          statsSubtitle: 'تدين EPE RETELEM SPA بنجاحها لالتزام وخبرة ودراية النساء والرجال الذين يساهمون كل يوم في نجاحها.',
+          stat1Label: 'سنوات التميز',
+          stat1Desc: 'منذ 1971 في خدمة الجزائر',
+          stat2Label: 'المشاريع المنجزة',
+          stat2Desc: 'تنفيذات ناجحة',
+          stat3Label: 'عملاء المؤسسات',
+          stat3Desc: 'منظمات راضية',
+          stat4Label: 'الدعم الفني',
+          stat4Desc: 'مساعدة مستمرة',
+          statsFooterCta: 'اكتشف حلولنا',
+
+          footerNavTitle: 'التنقل',
+          footerServicesTitle: 'الخدمات',
+          footerContactTitle: 'التواصل',
+          footerNewsletterTitle: 'النشرة',
+          footerDescription: 'الريادة في حلول الاتصالات والأمن في الجزائر بخبرة تزيد عن 50 عامًا.',
+          footerNavHome: 'الرئيسية',
+          footerNavCompany: 'شركتنا',
+          footerNavServices: 'أنشطتنا',
+          footerNavPartners: 'شركاؤنا',
+          footerNavNews: 'الأخبار',
+          footerNewsletterText: 'ابقَ على اطلاع بأحدث أخبارنا',
+          footerEmailPlaceholder: 'بريدك الإلكتروني',
+          legalPolicy: 'سياسة الخصوصية',
+          legalNotices: 'الإشعارات القانونية',
+          legalCookies: 'ملفات تعريف الارتباط',
+          copyright: '&copy; 2024 EPE RETELEM SPA. جميع الحقوق محفوظة.'
+        }
+      }[lang];
+
+      const langLabel = document.getElementById('langLabel');
+      if (langLabel) langLabel.textContent = L.langLabel;
+
+      // Header nav (top-level)
+      const setTextByHref = (href, value) => {
+        const el = document.querySelector(`a[href="${href}"]`);
+        if (el) el.textContent = value;
+      };
+      setTextByHref('#accueil', L.navHome);
+      setTextByHref('#notre-societe', L.navCompany);
+      setTextByHref('#services-section', L.navServices);
+      setTextByHref('#partenaires-section', L.navPartners);
+      setTextByHref('#actualites-section', L.navNews);
+      setTextByHref('#contact-section', L.navContact);
+
+      // Header nav (submenu)
+      setTextByHref('#notre-histoire', L.navStory);
+      setTextByHref('#nos-valeurs', L.navValues);
+      setTextByHref('#notre-engagement', L.navCommitment);
+      setTextByHref('#qualite', L.navQuality);
+      setTextByHref('#nos-atouts', L.navStrengths);
+
+      // Search placeholder + aria labels
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.placeholder = L.headerSearchPlaceholder;
+
+      const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+      if (mobileSearchToggle) mobileSearchToggle.setAttribute('aria-label', L.mobileSearchAria);
+
+      // Mobile nav toggle (both occurrences share same aria label)
+      document.querySelectorAll('.mobile-nav-toggle[aria-label]').forEach(btn => {
+        btn.setAttribute('aria-label', L.mobileMenuAria);
+      });
+
+      // Hero
+      const hero = document.querySelector('.hero1-content');
+      if (hero) {
+        const heroTitle = hero.querySelector('h1');
+        const heroSubtitle = hero.querySelector('p');
+        if (heroTitle) heroTitle.textContent = L.heroTitle;
+        if (heroSubtitle) heroSubtitle.textContent = L.heroSubtitle;
+
+        const primary = hero.querySelector('.hero1-buttons a.btn-primary');
+        const secondary = hero.querySelector('.hero1-buttons a.btn-secondary');
+        if (primary) primary.textContent = L.heroPrimaryCta;
+        if (secondary) secondary.textContent = L.heroSecondaryCta;
+      }
+
+      // CEO section
+      const ceoSection = document.querySelector('#mot-du-pdg');
+      if (ceoSection) {
+        const ceoTitle = ceoSection.querySelector('.section-title');
+        const ceoQuote = ceoSection.querySelector('.ceo-quote');
+        if (ceoTitle) ceoTitle.textContent = L.ceoTitle;
+        if (ceoQuote) ceoQuote.textContent = L.ceoQuote;
+
+        const ceoMessagePs = ceoSection.querySelectorAll('.ceo-message p');
+        if (ceoMessagePs && ceoMessagePs[0]) ceoMessagePs[0].textContent = L.ceoMsg1;
+        if (ceoMessagePs && ceoMessagePs[1]) ceoMessagePs[1].textContent = L.ceoMsg2;
+
+        const roleP = ceoSection.querySelector('.ceo-signature .ceo-info p');
+        if (roleP) roleP.textContent = L.ceoRole;
+      }
+
+      // Stats section
+      const statsSection = document.querySelector('section.stats-section');
+      if (statsSection) {
+        const statsTitle = statsSection.querySelector('.stats-title');
+        const statsSubtitle = statsSection.querySelector('.stats-subtitle');
+        if (statsTitle) statsTitle.textContent = L.statsTitle;
+        if (statsSubtitle) statsSubtitle.textContent = L.statsSubtitle;
+
+        const statLabels = statsSection.querySelectorAll('.stat-label');
+        const statDescs = statsSection.querySelectorAll('.stat-description');
+        if (statLabels && statLabels[0]) statLabels[0].textContent = L.stat1Label;
+        if (statLabels && statLabels[1]) statLabels[1].textContent = L.stat2Label;
+        if (statLabels && statLabels[2]) statLabels[2].textContent = L.stat3Label;
+        if (statLabels && statLabels[3]) statLabels[3].textContent = L.stat4Label;
+        if (statDescs && statDescs[0]) statDescs[0].textContent = L.stat1Desc;
+        if (statDescs && statDescs[1]) statDescs[1].textContent = L.stat2Desc;
+        if (statDescs && statDescs[2]) statDescs[2].textContent = L.stat3Desc;
+        if (statDescs && statDescs[3]) statDescs[3].textContent = L.stat4Desc;
+
+        const cta = statsSection.querySelector('.stats-footer .cta-link');
+        if (cta) {
+          const svg = cta.querySelector('svg');
+          cta.innerHTML = `${L.statsFooterCta} ${svg ? svg.outerHTML : ''}`;
+        }
+      }
+
+      // History section (company intro + timeline + gallery)
+      const historyByLang = {
+        fr: {
+          companyIntroHtml: `Inspirés par notre héritage pour construire le futur…<br><br><strong>EPE RETELEM SPA</strong> est pionnière avec + de 50 ans d'expérience dans la réalisation des infrastructures de télécommunications en Algérie (ex SONATITE), + de 20 ans d'expertise dans l'intégration de solutions informatiques en Infrastructure, Réseaux, Sécurité (vidéosurveillance, vidéoprotection, détection et protection incendie).<br><br>Sociétés de services et d'intégration à valeur ajoutée, <strong>EPE RETELEM SPA</strong> est un acteur incontournable des nouvelles technologies et innovations dans le domaine des Télécommunications, Réseaux, Sécurité et Infrastructures IT.`,
+          companyActionStory: 'Notre histoire',
+          companyActionNewsletter: 'Newsletter',
+          historyTitle: 'Inspirés par notre héritage pour construire le futur…',
+          historyIntro: "EPE RETELEM SPA est pionnière avec plus de 50 ans d'expérience dans la réalisation des infrastructures de télécommunications en Algérie (ex SONATITE) et plus de 20 ans d'expertise dans l'intégration de solutions informatiques en Infrastructure, Réseaux, Sécurité (vidéosurveillance, vidéoprotection, détection et protection incendie). Société de services et d'intégration à valeur ajoutée, EPE RETELEM SPA est un acteur incontournable des technologies de pointe et des innovations dans le domaine des Télécommunications, Réseaux, Sécurité et Infrastructures IT.",
+          timeline: [
+            {
+              h3: 'Naissance de SONATITE',
+              p: "SONATITE est pionnière dans la réalisation des infrastructures de télécommunications en Algérie, marquant le début d'une longue histoire d'innovation et d'excellence. Notre engagement envers la qualité et l'innovation a défini notre trajectoire dès le début."
+            },
+            {
+              h3: 'Nouvelle identité, RETELEM',
+              p: 'Un nouveau nom, une identité visuelle modernisée pour EPE RETELEM qui devient le leader des réseaux, des technologies de l information et de la communication. Cette transformation a marqué notre expansion vers de nouveaux marchés et technologies.'
+            },
+            {
+              h3: 'Vision d avenir ambitieux',
+              p: 'La nouvelle identité visuelle incarne la dynamique dans laquelle EPE RETELEM SPA est résolument entrée : celle d une compagnie multi-activités qui met en œuvre sa mission de proposer des Solutions & Services à forte valeur ajoutée pour répondre aux besoins des entreprises afin de contribuer à leurs performances.'
+            }
+          ],
+          galleryTitle: 'Notre Histoire en Images',
+          galleryItems: [
+            {
+              caption: '1970 - Premiers équipements Telecom',
+              popupH4: 'Les Débuts de la Révolution Télécom',
+              popupP: "En 1971, SONATITE installe les premiers équipements de télécommunications qui ont connecté l'Algérie. Ces systèmes analogiques pionniers ont posé les bases de l'infrastructure moderne.",
+              meta: '1971 • Fondation',
+              alt: '1970 - Premiers équipements Telecom'
+            },
+            {
+              caption: '1980 - Nos Équipes Techniques engagées',
+              popupH4: 'Nos Équipes Techniques engagées',
+              popupP: 'Dans les années 80, nos équipes techniques étaient pleinement engagées sur le terrain pour accompagner le développement des infrastructures de télécommunications à travers le pays. Leur mobilisation a contribué à renforcer le savoir-faire local et la continuité de nos projets.',
+              meta: '1980 • Engagement',
+              alt: '1980 - Nos Équipes Techniques engagées'
+            },
+            {
+              caption: '1990 - Premier Centre de Données',
+              popupH4: 'L ère Numérique Commence',
+              popupP: '1995 marque l installation de notre premier centre de données avec des serveurs mainframe. Cette infrastructure a supporté la transition vers le numérique des entreprises algériennes.',
+              meta: '1995 • Innovation',
+              alt: '1990 - Premier Centre de Données'
+            },
+            {
+              caption: '2000 - Transition vers RETELEM',
+              popupH4: 'Nouvelle Identité, Nouvelle Vision',
+              popupP: 'En 2008, SONATITE devient RETELEM, symbolisant notre évolution vers les solutions intégrées. Cette transformation a élargi notre portefeuille de services et notre rayonnement international.',
+              meta: '2008 • Transformation',
+              alt: '2000 - Transition vers RETELEM'
+            },
+            {
+              caption: '2010 - Extension de nos services',
+              popupH4: 'Expansion et Diversification',
+              popupP: 'Les années 2010 ont vu RETELEM diversifier ses services vers la cybersécurité, la vidéosurveillance et les solutions cloud. Nous avons doublé notre taille et triplé notre expertise.',
+              meta: '2015 • Expansion',
+              alt: '2010 - Extension de nos services'
+            },
+            {
+              caption: '2020 - Innovation Technologique',
+              popupH4: 'L Innovation au Cœur de Notre ADN',
+              popupP: 'Aujourd hui, RETELEM innove avec l IA, l IoT et la 5G. Notre centre de R&D développe des solutions sur mesure pour l industrie 4.0 et la transformation digitale de l Algérie.',
+              meta: '2024 • Innovation',
+              alt: '2020 - Innovation Technologique'
+            }
+          ]
+        },
+        en: {
+          companyIntroHtml: `Inspired by our heritage to build the future…<br><br><strong>EPE RETELEM SPA</strong> is a pioneer with over 50 years of experience in telecommunications infrastructure in Algeria (formerly SONATITE), and more than 20 years of expertise in integrating IT solutions across Infrastructure, Networks and Security (video surveillance, video protection, fire detection and fire protection).<br><br>As a value-added services and systems integration company, <strong>EPE RETELEM SPA</strong> is an essential player in the latest technologies and innovations in Telecommunications, Networks, Security and IT Infrastructures.`,
+          companyActionStory: 'Our story',
+          companyActionNewsletter: 'Newsletter',
+          historyTitle: 'Inspired by our heritage to build the future…',
+          historyIntro: 'EPE RETELEM SPA is a pioneer with more than 50 years of experience in delivering telecommunications infrastructures in Algeria (formerly SONATITE) and more than 20 years of expertise in the integration of IT solutions across Infrastructure, Networks, and Security (video surveillance, video protection, fire detection and fire protection). As a value-added services and integration company, EPE RETELEM SPA is a key player in cutting-edge technologies and innovation in the fields of Telecommunications, Networks, Security, and IT Infrastructure.',
+          timeline: [
+            {
+              h3: 'Birth of SONATITE',
+              p: 'SONATITE pioneered the development of telecommunications infrastructure in Algeria, marking the beginning of a long journey of innovation and excellence. Our commitment to quality and innovation defined our path from the very start.'
+            },
+            {
+              h3: 'New identity, RETELEM',
+              p: 'A new name and a modern visual identity for EPE RETELEM as it becomes the leader in networks, information and communication technologies. This transformation marked our expansion into new markets and technologies.'
+            },
+            {
+              h3: 'Ambitious future vision',
+              p: 'The new visual identity embodies the momentum in which EPE RETELEM SPA has firmly embarked: a multi-activity company delivering high-value Solutions & Services to meet business needs and contribute to their performance.'
+            }
+          ],
+          galleryTitle: 'Our Story in Images',
+          galleryItems: [
+            {
+              caption: '1970 - First Telecom Equipment',
+              popupH4: 'The Beginnings of the Telecommunications Revolution',
+              popupP: 'In 1971, SONATITE installed the first telecommunications equipment that connected Algeria. These pioneering analog systems laid the foundation of modern infrastructure.',
+              meta: '1971 • Foundation',
+              alt: '1970 - First Telecom Equipment'
+            },
+            {
+              caption: '1980 - Our Technical Teams in Action',
+              popupH4: 'Our Technical Teams in Action',
+              popupP: 'In the 1980s, our technical teams were fully engaged in the field, supporting the development of telecommunications infrastructures across the country. Their dedication helped strengthen local expertise and ensure the continuity of our projects.',
+              meta: '1980 • Commitment',
+              alt: '1980 - Our Technical Teams in Action'
+            },
+            {
+              caption: '1990 - First Data Center',
+              popupH4: 'The Digital Era Begins',
+              popupP: 'In 1995, we installed our first data center with mainframe servers. This infrastructure supported the transition to digital for Algerian enterprises.',
+              meta: '1995 • Innovation',
+              alt: '1990 - First Data Center'
+            },
+            {
+              caption: '2000 - Transition to RETELEM',
+              popupH4: 'New Identity, New Vision',
+              popupP: 'In 2008, SONATITE became RETELEM, symbolizing our shift toward integrated solutions. This transformation broadened our service portfolio and our international reach.',
+              meta: '2008 • Transformation',
+              alt: '2000 - Transition to RETELEM'
+            },
+            {
+              caption: '2010 - Expansion of Our Services',
+              popupH4: 'Expansion and Diversification',
+              popupP: 'In the 2010s, RETELEM diversified its services toward cybersecurity, video surveillance and cloud solutions. We doubled our size and tripled our expertise.',
+              meta: '2015 • Expansion',
+              alt: '2010 - Expansion of Our Services'
+            },
+            {
+              caption: '2020 - Technological Innovation',
+              popupH4: 'Innovation at the Heart of Our DNA',
+              popupP: 'Today, RETELEM innovates with AI, IoT and 5G. Our R&D center develops tailored solutions for Industry 4.0 and Algeria’s digital transformation.',
+              meta: '2024 • Innovation',
+              alt: '2020 - Technological Innovation'
+            }
+          ]
+        },
+        ar: {
+          companyIntroHtml: `مستمدين من إرثنا لبناء المستقبل…<br><br><strong>EPE RETELEM SPA</strong> رائدة بخبرة تمتد لأكثر من 50 عامًا في تنفيذ بنية الاتصالات في الجزائر (سابقًا SONATITE)، وبأكثر من 20 عامًا من الخبرة في تكامل حلول تقنية المعلومات ضمن مجالات البنية التحتية والشبكات والأمن (المراقبة بالفيديو، الحماية بالفيديو، كشف الحريق والحماية من الحرائق).<br><br>بصفته شركة خدمات وتكامل تقدم قيمة مضافة، <strong>EPE RETELEM SPA</strong> يعد لاعبًا أساسيًا في أحدث التقنيات والابتكارات في مجالات الاتصالات والشبكات والأمن وبنى تحتية لتقنية المعلومات.`,
+          companyActionStory: 'قصتنا',
+          companyActionNewsletter: 'النشرة',
+          historyTitle: 'مستمدين من إرثنا لبناء المستقبل…',
+          historyIntro: 'تُعد EPE RETELEM SPA رائدة بخبرة تزيد عن 50 عامًا في إنجاز البنى التحتية للاتصالات في الجزائر (سابقًا SONATITE)، وبأكثر من 20 عامًا من الخبرة في تكامل الحلول المعلوماتية في مجالات البنية التحتية والشبكات والأمن (المراقبة بالفيديو، الحماية بالفيديو، الكشف والوقاية من الحرائق). وبصفتها شركة خدمات وتكامل ذات قيمة مضافة، فإن EPE RETELEM SPA تُعد فاعلًا أساسيًا في التقنيات المتقدمة والابتكار في مجالات الاتصالات والشبكات والأمن والبنى التحتية لتقنية المعلومات.',
+          timeline: [
+            {
+              h3: 'بدايات SONATITE',
+              p: 'كانت SONATITE رائدة في تطوير بنية الاتصالات في الجزائر، لتضع بذلك بداية مسيرة طويلة من الابتكار والتميز. فقد شكّل التزامنا بالجودة والابتكار مسارنا منذ البداية.'
+            },
+            {
+              h3: 'هوية جديدة: RETELEM',
+              p: 'اسم جديد وهوية بصرية حديثة لـ EPE RETELEM لتصبح في طليعة الشبكات وتقنيات تكنولوجيا المعلومات والاتصال. وقد عززت هذه النقلة توسعنا في أسواق وتقنيات جديدة.'
+            },
+            {
+              h3: 'رؤية مستقبل طموحة',
+              p: 'تعكس الهوية البصرية الجديدة الزخم الذي انطلقت فيه EPE RETELEM SPA بثبات: شركة متعددة الأنشطة تقدم Solutions & Services عالية القيمة لتلبية احتياجات الأعمال والمساهمة في أدائها.'
+            }
+          ],
+          galleryTitle: 'قصتنا في صور',
+          galleryItems: [
+            {
+              caption: '1970 - أولى تجهيزات الاتصالات',
+              popupH4: 'بدايات ثورة الاتصالات',
+              popupP: 'في عام 1971، قامت SONATITE بتركيب أول معدات اتصالات ربطت الجزائر. وقد وضعت هذه الأنظمة التناظرية الرائدة أساس البنية التحتية الحديثة.',
+              meta: '1971 • التأسيس',
+              alt: '1970 - أولى تجهيزات الاتصالات'
+            },
+            {
+              caption: '1980 - فرقنا التقنية في الميدان',
+              popupH4: 'فرقنا التقنية في الميدان',
+              popupP: 'خلال الثمانينيات، كانت فرقنا التقنية منخرطة ميدانيًا في دعم تطوير البنى التحتية للاتصالات عبر مختلف أنحاء البلاد. وقد ساهم التزامها في تعزيز الخبرة المحلية وضمان استمرارية مشاريعنا.',
+              meta: '1980 • التزام',
+              alt: '1980 - فرقنا التقنية في الميدان'
+            },
+            {
+              caption: '1990 - أول مركز بيانات',
+              popupH4: 'تبدأ الحقبة الرقمية',
+              popupP: 'في عام 1995، قمنا بتركيب أول مركز بيانات لدينا مع خوادم mainframe. وقد دعمت هذه البنية انتقال المؤسسات الجزائرية نحو التحول الرقمي.',
+              meta: '1995 • الابتكار',
+              alt: '1990 - أول مركز بيانات'
+            },
+            {
+              caption: '2000 - الانتقال إلى RETELEM',
+              popupH4: 'هوية جديدة ورؤية جديدة',
+              popupP: 'في عام 2008، أصبحت SONATITE RETELEM، لتجسد انتقالنا نحو حلول متكاملة. وقد وسّعت هذه التحول محفظة خدماتنا ومدّ نطاق حضورنا الدولي.',
+              meta: '2008 • التحول',
+              alt: '2000 - الانتقال إلى RETELEM'
+            },
+            {
+              caption: '2010 - توسيع خدماتنا',
+              popupH4: 'التوسع والتنويع',
+              popupP: 'في العقد 2010، وسّعت RETELEM خدماتها باتجاه الأمن السيبراني والمراقبة بالفيديو وحلول السحابة. تضاعف حجمنا وزادت خبرتنا بشكل كبير.',
+              meta: '2015 • التوسع',
+              alt: '2010 - توسيع خدماتنا'
+            },
+            {
+              caption: '2020 - الابتكار التكنولوجي',
+              popupH4: 'الابتكار في قلب جوهرنا',
+              popupP: 'اليوم، تبتكر RETELEM مع الذكاء الاصطناعي وإنترنت الأشياء و5G. ويطوّر مركز R&D حلولًا مخصصة لـ الصناعة 4.0 والتحول الرقمي في الجزائر.',
+              meta: '2024 • الابتكار',
+              alt: '2020 - الابتكار التكنولوجي'
+            }
+          ]
+        }
+      }[lang];
+
+      const historyOverridesByLang = {
+        fr: {
+          historyTitle: 'Inspirés par notre héritage pour construire le futur…',
+          historyIntro: "EPE RETELEM SPA est pionnière avec plus de 50 ans d'expérience dans la réalisation des infrastructures de télécommunications en Algérie (ex SONATITE) et plus de 20 ans d'expertise dans l'intégration de solutions informatiques en Infrastructure, Réseaux, Sécurité (vidéosurveillance, vidéoprotection, détection et protection incendie). Société de services et d'intégration à valeur ajoutée, EPE RETELEM SPA est un acteur incontournable des technologies de pointe et des innovations dans le domaine des Télécommunications, Réseaux, Sécurité et Infrastructures IT.",
+          galleryItems: [
+            { caption: '1970 - Premiers équipements Telecom', alt: '1970 - Premiers équipements Telecom' },
+            {
+              caption: '1980 - Nos Équipes Techniques engagées',
+              alt: '1980 - Nos Équipes Techniques engagées',
+              popupH4: 'Nos Équipes Techniques engagées',
+              popupP: 'Dans les années 80, nos équipes techniques étaient pleinement engagées sur le terrain pour accompagner le développement des infrastructures de télécommunications à travers le pays. Leur mobilisation a contribué à renforcer le savoir-faire local et la continuité de nos projets.',
+              meta: '1980 • Engagement'
+            },
+            { caption: '1990 - Premier Centre de Données', alt: '1990 - Premier Centre de Données' },
+            { caption: '2000 - Transition vers RETELEM', alt: '2000 - Transition vers RETELEM' },
+            { caption: '2010 - Extension de nos services', alt: '2010 - Extension de nos services' },
+            { caption: '2020 - Innovation Technologique', alt: '2020 - Innovation Technologique' }
+          ]
+        },
+        en: {
+          historyTitle: 'Inspired by our heritage to build the future…',
+          historyIntro: 'EPE RETELEM SPA is a pioneer with more than 50 years of experience in delivering telecommunications infrastructures in Algeria (formerly SONATITE) and more than 20 years of expertise in the integration of IT solutions across Infrastructure, Networks, and Security (video surveillance, video protection, fire detection and fire protection). As a value-added services and integration company, EPE RETELEM SPA is a key player in cutting-edge technologies and innovation in the fields of Telecommunications, Networks, Security, and IT Infrastructure.',
+          galleryItems: [
+            { caption: '1970 - First Telecom Equipment', alt: '1970 - First Telecom Equipment' },
+            {
+              caption: '1980 - Our Technical Teams in Action',
+              alt: '1980 - Our Technical Teams in Action',
+              popupH4: 'Our Technical Teams in Action',
+              popupP: 'In the 1980s, our technical teams were fully engaged in the field, supporting the development of telecommunications infrastructures across the country. Their dedication helped strengthen local expertise and ensure the continuity of our projects.',
+              meta: '1980 • Commitment'
+            },
+            { caption: '1990 - First Data Center', alt: '1990 - First Data Center' },
+            { caption: '2000 - Transition to RETELEM', alt: '2000 - Transition to RETELEM' },
+            { caption: '2010 - Expansion of Our Services', alt: '2010 - Expansion of Our Services' },
+            { caption: '2020 - Technological Innovation', alt: '2020 - Technological Innovation' }
+          ]
+        },
+        ar: {
+          historyTitle: 'مستمدين من إرثنا لبناء المستقبل…',
+          historyIntro: 'تُعد EPE RETELEM SPA رائدة بخبرة تزيد عن 50 عامًا في إنجاز البنى التحتية للاتصالات في الجزائر (سابقًا SONATITE)، وبأكثر من 20 عامًا من الخبرة في تكامل الحلول المعلوماتية في مجالات البنية التحتية والشبكات والأمن (المراقبة بالفيديو، الحماية بالفيديو، الكشف والوقاية من الحرائق). وبصفتها شركة خدمات وتكامل ذات قيمة مضافة، فإن EPE RETELEM SPA تُعد فاعلًا أساسيًا في التقنيات المتقدمة والابتكار في مجالات الاتصالات والشبكات والأمن والبنى التحتية لتقنية المعلومات.',
+          galleryItems: [
+            { caption: '1970 - أولى تجهيزات الاتصالات', alt: '1970 - أولى تجهيزات الاتصالات' },
+            {
+              caption: '1980 - فرقنا التقنية في الميدان',
+              alt: '1980 - فرقنا التقنية في الميدان',
+              popupH4: 'فرقنا التقنية في الميدان',
+              popupP: 'خلال الثمانينيات، كانت فرقنا التقنية منخرطة ميدانيًا في دعم تطوير البنى التحتية للاتصالات عبر مختلف أنحاء البلاد. وقد ساهم التزامها في تعزيز الخبرة المحلية وضمان استمرارية مشاريعنا.',
+              meta: '1980 • التزام'
+            },
+            { caption: '1990 - أول مركز بيانات', alt: '1990 - أول مركز بيانات' },
+            { caption: '2000 - الانتقال إلى RETELEM', alt: '2000 - الانتقال إلى RETELEM' },
+            { caption: '2010 - توسيع خدماتنا', alt: '2010 - توسيع خدماتنا' },
+            { caption: '2020 - الابتكار التكنولوجي', alt: '2020 - الابتكار التكنولوجي' }
+          ]
+        }
+      };
+
+      const historyOverride = historyOverridesByLang[lang];
+      if (historyByLang && historyOverride) {
+        historyByLang.historyTitle = historyOverride.historyTitle;
+        historyByLang.historyIntro = historyOverride.historyIntro;
+        historyOverride.galleryItems.forEach((item, idx) => {
+          if (!historyByLang.galleryItems[idx]) return;
+          Object.assign(historyByLang.galleryItems[idx], item);
+        });
+      }
+
+      // Company showcase (intro + actions)
+      const companyDesc = document.querySelector('.company-description p');
+      if (companyDesc && historyByLang?.companyIntroHtml) companyDesc.innerHTML = historyByLang.companyIntroHtml;
+
+      const companyButtons = document.querySelectorAll('.company-actions button.btn');
+      if (companyButtons && companyButtons[0]) companyButtons[0].textContent = historyByLang.companyActionStory;
+      if (companyButtons && companyButtons[1]) companyButtons[1].textContent = historyByLang.companyActionNewsletter;
+
+      // History title + intro
+      const historyTitle = document.querySelector('.history-section .history-title');
+      if (historyTitle) historyTitle.textContent = historyByLang.historyTitle;
+
+      const historyIntroP = document.querySelector('.history-section .history-text p');
+      if (historyIntroP) historyIntroP.textContent = historyByLang.historyIntro;
+
+      // Timeline cards
+      const timelineItems = document.querySelectorAll('.timeline-container .timeline-item');
+      timelineItems.forEach((item, idx) => {
+        const t = historyByLang.timeline[idx];
+        if (!t) return;
+        const h3 = item.querySelector('.timeline-content h3');
+        const p = item.querySelector('.timeline-content p');
+        if (h3) h3.textContent = t.h3;
+        if (p) p.textContent = t.p;
+      });
+
+      // Gallery
+      const galleryTitle = document.querySelector('.history-gallery-section .gallery-title');
+      if (galleryTitle) galleryTitle.textContent = historyByLang.galleryTitle;
+
+      const galleryItems = document.querySelectorAll('.history-gallery .gallery-item');
+      galleryItems.forEach((g, idx) => {
+        const gi = historyByLang.galleryItems[idx];
+        if (!gi) return;
+        const img = g.querySelector('img');
+        if (img) img.alt = gi.alt;
+        const cap = g.querySelector('.gallery-caption');
+        if (cap) cap.textContent = gi.caption;
+        const popupH4 = g.querySelector('.story-popup h4');
+        if (popupH4) popupH4.textContent = gi.popupH4;
+        const popupP = g.querySelector('.story-popup p');
+        if (popupP) popupP.textContent = gi.popupP;
+        const meta = g.querySelector('.story-meta');
+        if (meta) meta.textContent = gi.meta;
+      });
+
+      // Footer
+      const footer = document.querySelector('footer.site-footer');
+      if (footer) {
+        const footerDescription = footer.querySelector('p.footer-description');
+        if (footerDescription) footerDescription.textContent = L.footerDescription;
+
+        const footerTitles = footer.querySelectorAll('h4.footer-title');
+        if (footerTitles && footerTitles[0]) footerTitles[0].textContent = L.footerNavTitle;
+        if (footerTitles && footerTitles[1]) footerTitles[1].textContent = L.footerServicesTitle;
+        if (footerTitles && footerTitles[2]) footerTitles[2].textContent = L.footerContactTitle;
+        if (footerTitles && footerTitles[3]) footerTitles[3].textContent = L.footerNewsletterTitle;
+
+        // Footer nav links (keep service sub-links handled elsewhere)
+        const footerNavMap = [
+          { href: '#accueil', key: 'footerNavHome' },
+          { href: '#notre-societe', key: 'footerNavCompany' },
+          { href: '#services-section', key: 'footerNavServices' },
+          { href: '#partners-section', key: 'footerNavPartners' },
+          { href: '#news-gallery-section', key: 'footerNavNews' }
+        ];
+        footerNavMap.forEach(item => {
+          const link = footer.querySelector(`a.footer-link.nav-link[href="${item.href}"]`);
+          if (link) link.textContent = L[item.key];
+        });
+
+        const newsletterText = footer.querySelector('.newsletter-form p');
+        if (newsletterText) newsletterText.textContent = L.footerNewsletterText;
+
+        const email = footer.querySelector('.newsletter-input');
+        if (email) email.placeholder = L.footerEmailPlaceholder;
+
+        // Legal links + copyright
+        const legalLinks = footer.querySelectorAll('.footer-bottom .legal-link');
+        if (legalLinks && legalLinks[0]) legalLinks[0].textContent = L.legalPolicy;
+        if (legalLinks && legalLinks[1]) legalLinks[1].textContent = L.legalNotices;
+        if (legalLinks && legalLinks[2]) legalLinks[2].textContent = L.legalCookies;
+
+        const copyright = footer.querySelector('.copyright');
+        if (copyright) copyright.innerHTML = L.copyright;
+
+        // Contact hours line (best-effort)
+        const clockItem = footer.querySelector('.contact-item .fa-clock')?.closest('.contact-item');
+        if (clockItem) {
+          const span = clockItem.querySelector('span');
+          if (span) span.textContent = lang === 'fr' ? 'Dimanche - Jeudi: 8:00 - 17:00' : lang === 'en' ? 'Sunday - Thursday: 8:00 - 17:00' : 'الأحد - الخميس: 8:00 - 17:00';
+        }
+      }
+    }
+
+    function applyLanguage(lang) {
+      window.i18nLang = lang;
+
+      // Swap active service data (others will be added in the next step)
+      if (lang === 'en') serviceData = serviceDataEN;
+      else if (lang === 'ar') serviceData = serviceDataAR;
+      else serviceData = serviceDataFR;
+
+      updateServiceStaticUI(lang);
+
+      // Swap partners data (modal content)
+      if (lang === 'en') partnersData = partnersDataEN;
+      else if (lang === 'ar') partnersData = partnersDataAR;
+      else partnersData = partnersDataFR;
+      updatePartnerStaticUI(lang);
+
+      // Swap publications/news/newsletter data (dynamic content)
+      if (lang === 'en') {
+        informationsData = informationsDataEN;
+        newsData = newsDataEN;
+        newsletterDetails = newsletterDetailsEN;
+      } else if (lang === 'ar') {
+        informationsData = informationsDataAR;
+        newsData = newsDataAR;
+        newsletterDetails = newsletterDetailsAR;
+      } else {
+        informationsData = informationsDataFR;
+        newsData = newsDataFR;
+        newsletterDetails = newsletterDetailsFR;
+      }
+
+      updateInformationStaticUI();
+      updateNewsStaticUI();
+      updateNewsletterStaticUI();
+      updateContactStaticUI(lang);
+      updateMainStaticUI(lang);
+    }
+
+    // Expose helpers used by templates
+    window.getCategoryLabel = function (key) {
+      const lang = window.i18nLang || 'fr';
+      return (categoryLabelsByLang[lang] && categoryLabelsByLang[lang][key]) || key;
+    };
+
+    window.getUIString = function (key) {
+      const lang = window.i18nLang || 'fr';
+      return (uiStringsByLang[lang] && uiStringsByLang[lang][key]) || key;
+    };
+
+    window.getPartnerTierLabel = function (tier) {
+      const lang = window.i18nLang || 'fr';
+      return (partnerTierLabelsByLang[lang] && partnerTierLabelsByLang[lang][tier]) || tier;
+    };
+
+    function setDir(lang) {
+      const dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('dir', dir);
+      document.body.setAttribute('dir', dir);
+    }
+
+    function safeSetSelectValue(select, value) {
+      if (!select) return;
+      const found = Array.from(select.options).some(o => o.value === value);
+      if (found) select.value = value;
+    }
+
+    function initFloatingLanguageSwitcher() {
+      const switcher = document.getElementById('langSwitcher');
+      const handle = switcher?.querySelector('.lang-drag-handle');
+      if (!switcher || !handle || switcher.dataset.floatingReady === '1') return;
+
+      switcher.dataset.floatingReady = '1';
+      const storageKey = 'retelem-lang-switcher-position';
+      const minOffset = 8;
+      let dragging = false;
+      let activePointerId = null;
+      let pointerOffsetX = 0;
+      let pointerOffsetY = 0;
+
+      const clampPosition = (x, y) => {
+        const maxX = Math.max(minOffset, window.innerWidth - switcher.offsetWidth - minOffset);
+        const maxY = Math.max(minOffset, window.innerHeight - switcher.offsetHeight - minOffset);
+        return {
+          x: Math.min(Math.max(minOffset, x), maxX),
+          y: Math.min(Math.max(minOffset, y), maxY)
+        };
+      };
+
+      const applyCustomPosition = (x, y) => {
+        const next = clampPosition(x, y);
+        switcher.classList.add('is-custom-position');
+        switcher.style.left = `${next.x}px`;
+        switcher.style.top = `${next.y}px`;
+        switcher.style.right = 'auto';
+        switcher.style.bottom = 'auto';
+      };
+
+      const persistPosition = () => {
+        if (!switcher.classList.contains('is-custom-position')) return;
+        const rect = switcher.getBoundingClientRect();
+        try {
+          localStorage.setItem(storageKey, JSON.stringify({
+            x: Math.round(rect.left),
+            y: Math.round(rect.top)
+          }));
+        } catch (_) { /* ignore */ }
+      };
+
+      const resetPosition = () => {
+        switcher.classList.remove('is-custom-position', 'is-dragging');
+        switcher.style.left = '';
+        switcher.style.top = '';
+        switcher.style.right = '';
+        switcher.style.bottom = '';
+        try { localStorage.removeItem(storageKey); } catch (_) { /* ignore */ }
+      };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+        if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+          applyCustomPosition(saved.x, saved.y);
+        }
+      } catch (_) { /* ignore */ }
+
+      handle.addEventListener('pointerdown', function (event) {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        const rect = switcher.getBoundingClientRect();
+        dragging = true;
+        activePointerId = event.pointerId;
+        pointerOffsetX = event.clientX - rect.left;
+        pointerOffsetY = event.clientY - rect.top;
+        switcher.classList.add('is-dragging');
+        if (handle.setPointerCapture) handle.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      });
+
+      handle.addEventListener('pointermove', function (event) {
+        if (!dragging || event.pointerId !== activePointerId) return;
+        applyCustomPosition(event.clientX - pointerOffsetX, event.clientY - pointerOffsetY);
+      });
+
+      const stopDragging = (event) => {
+        if (!dragging || (event && event.pointerId !== activePointerId)) return;
+        dragging = false;
+        activePointerId = null;
+        switcher.classList.remove('is-dragging');
+        persistPosition();
+      };
+
+      handle.addEventListener('pointerup', stopDragging);
+      handle.addEventListener('pointercancel', stopDragging);
+      handle.addEventListener('dblclick', resetPosition);
+
+      window.addEventListener('resize', function () {
+        if (!switcher.classList.contains('is-custom-position')) return;
+        const rect = switcher.getBoundingClientRect();
+        applyCustomPosition(rect.left, rect.top);
+        persistPosition();
+      });
+    }
+
+    // Basic language bootstrap (full translations will be added next)
+    const select = document.getElementById('langSelect');
+    let lang = 'fr';
+    try {
+      const saved = localStorage.getItem('lang');
+      if (saved === 'fr' || saved === 'en' || saved === 'ar') lang = saved;
+      else if (navigator.language && navigator.language.toLowerCase().startsWith('ar')) lang = 'ar';
+      else if (navigator.language && navigator.language.toLowerCase().startsWith('en')) lang = 'en';
+    } catch (_) { /* ignore */ }
+
+    window.i18nLang = lang;
+    initFloatingLanguageSwitcher();
+    safeSetSelectValue(select, lang);
+    setDir(lang);
+    applyLanguage(lang);
+    initAgencyModalBehavior();
+
+    // Update language label (small polish)
+    if (select) {
+      select.addEventListener('change', function () {
+        const newLang = this.value;
+        window.i18nLang = newLang;
+        try { localStorage.setItem('lang', newLang); } catch (_) { /* ignore */ }
+        setDir(newLang);
+        applyLanguage(newLang);
+        // Re-render the dynamic content so category labels update immediately
+        const heroCarousel = document.getElementById('heroCarousel');
+        const heroDots = document.getElementById('heroDots');
+        if (heroCarousel && heroDots) {
+          heroCarousel.innerHTML = '';
+          heroDots.innerHTML = '';
+          if (typeof initHeroCarousel === 'function') initHeroCarousel();
+        }
+        const newsGrid = document.getElementById('newsGrid');
+        if (newsGrid) {
+          newsGrid.innerHTML = '';
+          if (typeof initNewsGrid === 'function') initNewsGrid();
+        }
+        if (typeof initTabs === 'function') initTabs();
+      });
+    }
+  })();
 </script>
 
   </body>

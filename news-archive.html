@@ -376,6 +376,317 @@
                 text-align: center;
             }
         }
+
+        /* Language switcher */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 0.75rem 0;
+        }
+        .lang-switcher .lang-label {
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+        }
+        .lang-switcher select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            padding: 0.55rem 2.2rem 0.55rem 0.9rem;
+            border-radius: 12px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(255, 255, 255, 0.65);
+            color: #0b74da;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* RTL overrides (Arabic) */
+        html[dir="rtl"] body {
+            direction: rtl;
+        }
+        html[dir="rtl"] .back-btn {
+            flex-direction: row-reverse;
+        }
+        html[dir="rtl"] .archive-search button {
+            right: auto;
+            left: 10px;
+        }
+        html[dir="rtl"] .archive-item-category {
+            left: auto;
+            right: 12px;
+        }
+
+        #langSwitcher.lang-switcher {
+            position: fixed;
+            top: auto;
+            right: max(1rem, env(safe-area-inset-right));
+            bottom: max(1rem, env(safe-area-inset-bottom));
+            left: auto;
+            z-index: 1305;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.18);
+            backdrop-filter: blur(14px);
+            margin: 0;
+            user-select: none;
+            max-width: calc(100vw - 2rem);
+        }
+
+        #langSwitcher.lang-switcher .lang-label {
+            display: none;
+        }
+
+        #langSwitcher.lang-switcher select {
+            min-width: 4.8rem;
+            padding: 0.45rem 1.9rem 0.45rem 0.55rem;
+            border: none;
+            border-radius: 999px;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        #langSwitcher.lang-switcher .lang-drag-handle {
+            width: 2rem;
+            height: 2rem;
+            padding: 0;
+            border: none;
+            border-radius: 999px;
+            background: rgba(11, 116, 218, 0.1);
+            color: #0b74da;
+            cursor: grab;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            touch-action: none;
+        }
+
+        #langSwitcher.lang-switcher .lang-drag-handle::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
+        }
+
+        #langSwitcher.lang-switcher.is-dragging,
+        #langSwitcher.lang-switcher.is-dragging .lang-drag-handle {
+            cursor: grabbing;
+        }
+
+        #langSwitcher.lang-switcher.is-custom-position {
+            right: auto;
+            bottom: auto;
+        }
+
+        html[dir="rtl"] #langSwitcher.lang-switcher:not(.is-custom-position) {
+            right: auto;
+            left: max(1rem, env(safe-area-inset-left));
+        }
+
+        /* Responsive audit overrides */
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .archive-page-title h1 {
+            line-height: 1.1;
+            overflow-wrap: normal;
+            word-break: normal;
+            hyphens: manual;
+            text-wrap: pretty;
+        }
+
+        .archive-item-title,
+        .archive-item-excerpt,
+        .archive-page-title p {
+            overflow-wrap: break-word;
+        }
+
+        .archive-item-footer,
+        .archive-item-meta,
+        .archive-pagination,
+        .back-navigation,
+        .lang-switcher {
+            flex-wrap: wrap;
+        }
+
+        .archive-search input,
+        .archive-filters select,
+        .pagination-btn,
+        .back-btn,
+        .archive-search button {
+            font: inherit;
+            max-width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            #langSwitcher.lang-switcher {
+                right: max(0.85rem, env(safe-area-inset-right));
+                bottom: max(0.85rem, env(safe-area-inset-bottom));
+                padding: 0.4rem 0.45rem;
+            }
+
+            #langSwitcher.lang-switcher select {
+                min-width: 4.25rem;
+                font-size: 0.82rem;
+                padding: 0.4rem 1.7rem 0.4rem 0.45rem;
+            }
+
+            #langSwitcher.lang-switcher .lang-drag-handle {
+                width: 1.85rem;
+                height: 1.85rem;
+            }
+
+            .archive-page-header {
+                padding: 1.5rem 0;
+            }
+
+            .header-container,
+            .archive-controls,
+            .archive-stats,
+            .archive-main {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .lang-switcher .lang-label {
+                display: none;
+            }
+
+            .archive-page-title h1 {
+                font-size: 1.65rem;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+
+            .archive-page-title p {
+                font-size: 1rem;
+            }
+
+            .archive-controls {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            .archive-search {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .archive-search input {
+                padding: 0.9rem 3.4rem 0.9rem 1rem;
+            }
+
+            .archive-search button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .archive-stats {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            .archive-main {
+                margin: 1.25rem auto;
+            }
+
+            .archive-grid {
+                gap: 1rem;
+            }
+
+            .archive-item {
+                padding: 1rem;
+                gap: 1rem;
+                border-radius: 1rem;
+            }
+
+            .archive-item-image {
+                height: 180px;
+            }
+
+            .archive-item-title {
+                font-size: 1.2rem;
+            }
+
+            .archive-item-excerpt {
+                font-size: 0.95rem;
+                margin-bottom: 1rem;
+            }
+
+            .archive-item-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .archive-item-meta {
+                gap: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .archive-pagination {
+                gap: 0.5rem;
+            }
+
+            .pagination-btn {
+                flex: 1 1 8.5rem;
+                text-align: center;
+                padding: 0.85rem 1rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            #langSwitcher.lang-switcher {
+                max-width: calc(100vw - 1rem);
+            }
+
+            .archive-page-title h1 {
+                font-size: 1.45rem;
+            }
+
+            .archive-item-image {
+                height: 160px;
+            }
+
+            .archive-search button {
+                right: 8px;
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        @media (hover: none) {
+            .archive-item:hover {
+                transform: none;
+            }
+
+            .archive-item:hover .archive-item-image img {
+                transform: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -388,6 +699,17 @@
                     Retour à l'accueil
                 </a>
             </div>
+
+            <div class="lang-switcher" id="langSwitcher">
+                <button type="button" class="lang-drag-handle" aria-label="Move language switcher" title="Drag to move. Double-click to reset"></button>
+                <span class="lang-label" id="langLabel">Language</span>
+                <select id="langSelect" aria-label="Language selector">
+                    <option value="fr">Français</option>
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
+                </select>
+            </div>
+
             <div class="archive-page-title">
                 <h1>
                     <i class="fas fa-newspaper"></i>
@@ -561,6 +883,351 @@
             // Add more articles here...
         ];
 
+        // ===== i18n (FR/EN/AR) + RTL =====
+        let currentLang = 'fr';
+        try {
+            const saved = localStorage.getItem('lang');
+            if (saved === 'fr' || saved === 'en' || saved === 'ar') currentLang = saved;
+            else if (navigator.language && navigator.language.toLowerCase().startsWith('ar')) currentLang = 'ar';
+            else if (navigator.language && navigator.language.toLowerCase().startsWith('en')) currentLang = 'en';
+        } catch (_) { /* ignore */ }
+
+        const categoryLabelsByLang = {
+            fr: { all: 'Toutes les catégories', projects: 'Projets', events: 'Événements', partnerships: 'Partenariats', innovations: 'Innovations' },
+            en: { all: 'All categories', projects: 'Projects', events: 'Events', partnerships: 'Partnerships', innovations: 'Innovations' },
+            ar: { all: 'كل الفئات', projects: 'المشاريع', events: 'الفعاليات', partnerships: 'الشراكات', innovations: 'الابتكارات' }
+        };
+
+        const typeLabelsByLang = {
+            fr: {
+                Article: 'Article',
+                'Communiqué': 'Communiqué',
+                Projet: 'Projet',
+                Formation: 'Formation',
+                'Événement': 'Événement',
+                Innovation: 'Innovation',
+                Partenariat: 'Partenariat',
+                Webinaire: 'Webinaire',
+                Conférence: 'Conférence'
+            },
+            en: {
+                Article: 'Article',
+                'Communiqué': 'Press release',
+                Projet: 'Project',
+                Formation: 'Training',
+                'Événement': 'Event',
+                Innovation: 'Innovation',
+                Partenariat: 'Partnership',
+                Webinaire: 'Webinar',
+                Conférence: 'Conference'
+            },
+            ar: {
+                Article: 'مقال',
+                'Communiqué': 'بيان صحفي',
+                Projet: 'مشروع',
+                Formation: 'تدريب',
+                'Événement': 'فعالية',
+                Innovation: 'ابتكار',
+                Partenariat: 'شراكة',
+                Webinaire: 'ندوة',
+                Conférence: 'مؤتمر'
+            }
+        };
+
+        const uiTextByLang = {
+            fr: {
+                backHome: 'Retour à l\\'accueil',
+                archiveTitle: 'Toutes nos actualités',
+                archiveSubtitle: 'Découvrez l\\'ensemble de nos publications, projets et innovations',
+                searchPlaceholder: 'Rechercher dans les actualités...',
+                sortNewest: 'Plus récent',
+                sortOldest: 'Plus ancien',
+                noResultsTitle: 'Aucune actualité trouvée',
+                noResultsSubtitle: 'Essayez de modifier vos critères de recherche',
+                readMore: 'Lire la suite',
+                prev: 'Précédent',
+                next: 'Suivant',
+                pageOf: 'Page',
+                on: 'sur'
+            },
+            en: {
+                backHome: 'Back to homepage',
+                archiveTitle: 'All news',
+                archiveSubtitle: 'Explore our publications, projects and innovations',
+                searchPlaceholder: 'Search within news...',
+                sortNewest: 'Newest',
+                sortOldest: 'Oldest',
+                noResultsTitle: 'No news items found',
+                noResultsSubtitle: 'Try adjusting your search criteria',
+                readMore: 'Read more',
+                prev: 'Previous',
+                next: 'Next',
+                pageOf: 'Page',
+                on: 'of'
+            },
+            ar: {
+                backHome: 'العودة إلى الرئيسية',
+                archiveTitle: 'كل الأخبار',
+                archiveSubtitle: 'استكشف منشوراتنا ومشاريعنا وابتكاراتنا',
+                searchPlaceholder: 'ابحث داخل الأخبار...',
+                sortNewest: 'الأحدث',
+                sortOldest: 'الأقدم',
+                noResultsTitle: 'لم يتم العثور على نتائج',
+                noResultsSubtitle: 'جرّب تعديل معايير البحث',
+                readMore: 'اعرض المزيد',
+                prev: 'السابق',
+                next: 'التالي',
+                pageOf: 'الصفحة',
+                on: 'من'
+            }
+        };
+
+        // Minimal translated content for the most visible items
+        const newsArchiveTranslationsEN = {
+            1: {
+                title: 'Opening of our Cybersecurity Training Center',
+                excerpt: 'We are proud to announce the official opening of our specialized cybersecurity training center, equipped with the latest technologies to train tomorrow\\'s experts.',
+                date: '15 March 2024'
+            },
+            2: {
+                title: 'Cisco Strategic Partnership for Network Infrastructures',
+                excerpt: 'Signing a new partnership with Cisco to develop innovative network solutions for Algerian businesses.',
+                date: '10 March 2024'
+            },
+            3: {
+                title: 'Launch of the Smart City Project in Algiers',
+                excerpt: 'We are deploying a complete smart city infrastructure integrating surveillance, connectivity and data management.',
+                date: '5 March 2024'
+            },
+            4: {
+                title: 'Certification Training in Advanced Networks',
+                excerpt: 'Our training center offers a new advanced networks certification for sector professionals.',
+                date: '28 February 2024'
+            },
+            5: {
+                title: 'Participation in the International Telecommunications Exhibition',
+                excerpt: 'Highlights from SIT 2024 where we showcased our latest connectivity innovations.',
+                date: '20 February 2024'
+            },
+            6: {
+                title: 'Deployment of Fiber Optics in 10 New Wilayas',
+                excerpt: 'Extending our fiber network to cover 10 new wilayas and improve national connectivity.',
+                date: '15 February 2024'
+            },
+            7: {
+                title: 'New AI Video Surveillance Solution',
+                excerpt: 'Launching our new intelligent video surveillance solution with facial recognition and advanced analytics.',
+                date: '10 February 2024'
+            },
+            8: {
+                title: 'Partnership with the Ministry of Education',
+                excerpt: 'Collaboration with the ministry to equip 100 schools with advanced network and security solutions.',
+                date: '5 February 2024'
+            },
+            9: {
+                title: 'Webinar on Digital Transformation',
+                excerpt: 'Replay available of our webinar on the challenges of digital transformation for Algerian enterprises.',
+                date: '1 February 2024'
+            }
+        };
+
+        const newsArchiveTranslationsAR = {
+            1: { title: 'افتتاح مركزنا للتدريب في الأمن السيبراني', excerpt: 'نفخر بإعلان الافتتاح الرسمي لمركزنا المتخصص في الأمن السيبراني، المجهز بأحدث التقنيات لتدريب خبراء الغد.', date: '15 مارس 2024' },
+            2: { title: 'شراكة استراتيجية مع Cisco لبنى الشبكات', excerpt: 'توقيع شراكة جديدة مع Cisco لتطوير حلول شبكية مبتكرة للشركات الجزائرية.', date: '10 مارس 2024' },
+            3: { title: 'إطلاق مشروع المدينة الذكية في الجزائر العاصمة', excerpt: 'نقوم بنشر بنية متكاملة للمدينة الذكية تجمع المراقبة والاتصال وإدارة البيانات.', date: '5 مارس 2024' },
+            4: { title: 'تدريب معتمد في الشبكات المتقدمة', excerpt: 'يقدم مركزنا شهادة جديدة في الشبكات المتقدمة للمختصين في القطاع.', date: '28 فبراير 2024' },
+            5: { title: 'المشاركة في المعرض الدولي للاتصالات', excerpt: 'ملخص مشاركتنا في SIT 2024 حيث عرضنا أحدث ابتكاراتنا في مجال الاتصال.', date: '20 فبراير 2024' },
+            6: { title: 'نشر الألياف البصرية في 10 ولايات جديدة', excerpt: 'توسيع شبكة الألياف لتغطية 10 ولايات وتحسين الاتصال الوطني.', date: '15 فبراير 2024' },
+            7: { title: 'حل جديد للمراقبة بالفيديو مدعوم بالذكاء الاصطناعي', excerpt: 'إطلاق حلنا الجديد للمراقبة الذكية بالفيديو مع التعرّف على الوجوه وتحليلات متقدمة.', date: '10 فبراير 2024' },
+            8: { title: 'شراكة مع وزارة التعليم', excerpt: 'تعاون مع الوزارة لتمكين 100 مدرسة بحلول شبكات وأمن متقدمة.', date: '5 فبراير 2024' },
+            9: { title: 'ندوة عبر الإنترنت حول التحول الرقمي', excerpt: 'إعادة متاحة لندوتنا حول تحديات التحول الرقمي للمؤسسات الجزائرية.', date: '1 فبراير 2024' }
+        };
+
+        function setDir(lang) {
+            const dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.setAttribute('dir', dir);
+            document.documentElement.setAttribute('lang', lang);
+            document.body.setAttribute('dir', dir);
+        }
+
+        function getCategoryLabel(key) {
+            return (categoryLabelsByLang[currentLang] && categoryLabelsByLang[currentLang][key]) || key;
+        }
+
+        function getTypeLabel(type) {
+            return (typeLabelsByLang[currentLang] && typeLabelsByLang[currentLang][type]) || type;
+        }
+
+        function getUIString(key) {
+            return (uiTextByLang[currentLang] && uiTextByLang[currentLang][key]) || key;
+        }
+
+        function getDisplayNewsItem(item) {
+            if (currentLang === 'fr') return item;
+            const map = currentLang === 'en' ? newsArchiveTranslationsEN : newsArchiveTranslationsAR;
+            const tr = map[item.id];
+            if (!tr) return item;
+            return { ...item, title: tr.title, excerpt: tr.excerpt, date: tr.date };
+        }
+
+        function initFloatingLanguageSwitcher() {
+            const switcher = document.getElementById('langSwitcher');
+            const handle = switcher?.querySelector('.lang-drag-handle');
+            if (!switcher || !handle || switcher.dataset.floatingReady === '1') return;
+
+            switcher.dataset.floatingReady = '1';
+            const storageKey = 'retelem-lang-switcher-position';
+            const minOffset = 8;
+            let dragging = false;
+            let activePointerId = null;
+            let pointerOffsetX = 0;
+            let pointerOffsetY = 0;
+
+            const clampPosition = (x, y) => {
+                const maxX = Math.max(minOffset, window.innerWidth - switcher.offsetWidth - minOffset);
+                const maxY = Math.max(minOffset, window.innerHeight - switcher.offsetHeight - minOffset);
+                return {
+                    x: Math.min(Math.max(minOffset, x), maxX),
+                    y: Math.min(Math.max(minOffset, y), maxY)
+                };
+            };
+
+            const applyCustomPosition = (x, y) => {
+                const next = clampPosition(x, y);
+                switcher.classList.add('is-custom-position');
+                switcher.style.left = `${next.x}px`;
+                switcher.style.top = `${next.y}px`;
+                switcher.style.right = 'auto';
+                switcher.style.bottom = 'auto';
+            };
+
+            const persistPosition = () => {
+                if (!switcher.classList.contains('is-custom-position')) return;
+                const rect = switcher.getBoundingClientRect();
+                try {
+                    localStorage.setItem(storageKey, JSON.stringify({
+                        x: Math.round(rect.left),
+                        y: Math.round(rect.top)
+                    }));
+                } catch (_) { /* ignore */ }
+            };
+
+            const resetPosition = () => {
+                switcher.classList.remove('is-custom-position', 'is-dragging');
+                switcher.style.left = '';
+                switcher.style.top = '';
+                switcher.style.right = '';
+                switcher.style.bottom = '';
+                try { localStorage.removeItem(storageKey); } catch (_) { /* ignore */ }
+            };
+
+            try {
+                const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
+                if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+                    applyCustomPosition(saved.x, saved.y);
+                }
+            } catch (_) { /* ignore */ }
+
+            handle.addEventListener('pointerdown', function (event) {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                const rect = switcher.getBoundingClientRect();
+                dragging = true;
+                activePointerId = event.pointerId;
+                pointerOffsetX = event.clientX - rect.left;
+                pointerOffsetY = event.clientY - rect.top;
+                switcher.classList.add('is-dragging');
+                if (handle.setPointerCapture) handle.setPointerCapture(event.pointerId);
+                event.preventDefault();
+            });
+
+            handle.addEventListener('pointermove', function (event) {
+                if (!dragging || event.pointerId !== activePointerId) return;
+                applyCustomPosition(event.clientX - pointerOffsetX, event.clientY - pointerOffsetY);
+            });
+
+            const stopDragging = (event) => {
+                if (!dragging || (event && event.pointerId !== activePointerId)) return;
+                dragging = false;
+                activePointerId = null;
+                switcher.classList.remove('is-dragging');
+                persistPosition();
+            };
+
+            handle.addEventListener('pointerup', stopDragging);
+            handle.addEventListener('pointercancel', stopDragging);
+            handle.addEventListener('dblclick', resetPosition);
+
+            window.addEventListener('resize', function () {
+                if (!switcher.classList.contains('is-custom-position')) return;
+                const rect = switcher.getBoundingClientRect();
+                applyCustomPosition(rect.left, rect.top);
+                persistPosition();
+            });
+        }
+
+        function applyArchiveStaticUI() {
+            const langSelect = document.getElementById('langSelect');
+            if (langSelect) langSelect.value = currentLang;
+
+            setDir(currentLang);
+
+            const langLabel = document.getElementById('langLabel');
+            if (langLabel) {
+                langLabel.textContent = currentLang === 'ar' ? 'اللغة' : currentLang === 'en' ? 'Language' : 'Langue';
+            }
+
+            // Header
+            const backBtn = document.querySelector('.back-btn');
+            if (backBtn) backBtn.lastChild.textContent = getUIString('backHome');
+
+            const archiveTitle = document.querySelector('.archive-page-title h1');
+            if (archiveTitle) {
+                const icon = archiveTitle.querySelector('i');
+                archiveTitle.childNodes.forEach(n => {
+                    if (n.nodeType === Node.TEXT_NODE) n.textContent = ' ';
+                });
+                // Replace all text except the icon
+                archiveTitle.innerHTML = `${icon ? icon.outerHTML : ''} ${getUIString('archiveTitle')}`;
+            }
+
+            const archiveSubtitle = document.querySelector('.archive-page-title p');
+            if (archiveSubtitle) archiveSubtitle.textContent = getUIString('archiveSubtitle');
+
+            // Controls placeholders/options
+            const archiveSearch = document.getElementById('archiveSearch');
+            if (archiveSearch) archiveSearch.placeholder = getUIString('searchPlaceholder');
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter && categoryFilter.options.length >= 5) {
+                categoryFilter.options[0].textContent = getCategoryLabel('all');
+                categoryFilter.options[1].textContent = getCategoryLabel('projects');
+                categoryFilter.options[2].textContent = getCategoryLabel('events');
+                categoryFilter.options[3].textContent = getCategoryLabel('partnerships');
+                categoryFilter.options[4].textContent = getCategoryLabel('innovations');
+            }
+
+            const sortFilter = document.getElementById('sortFilter');
+            if (sortFilter && sortFilter.options.length >= 2) {
+                sortFilter.options[0].textContent = getUIString('sortNewest');
+                sortFilter.options[1].textContent = getUIString('sortOldest');
+            }
+
+            // Listen once
+            if (!langSelect.dataset.bound) {
+                langSelect.dataset.bound = '1';
+                langSelect.addEventListener('change', function () {
+                    currentLang = this.value;
+                    try { localStorage.setItem('lang', currentLang); } catch (_) { /* ignore */ }
+                    applyArchiveStaticUI();
+                    renderArchive();
+                });
+            }
+        }
+
+        // Apply initial language before first render
+        initFloatingLanguageSwitcher();
+        applyArchiveStaticUI();
+
         // Archive state
         let archiveState = {
             currentPage: 1,
@@ -607,8 +1274,11 @@
             const totalNews = document.getElementById('totalNews');
             const currentPageSpan = document.getElementById('currentPage');
 
+            const displayNews = extendedNewsData.map(getDisplayNewsItem);
+            const arrowClass = currentLang === 'ar' ? 'fa-arrow-left' : 'fa-arrow-right';
+
             // Filter news
-            let filteredNews = extendedNewsData.filter(item => {
+            let filteredNews = displayNews.filter(item => {
                 const matchesCategory = archiveState.currentCategory === 'all' || item.category === archiveState.currentCategory;
                 const matchesSearch = !archiveState.searchTerm || 
                     item.title.toLowerCase().includes(archiveState.searchTerm) ||
@@ -631,16 +1301,22 @@
             const currentItems = filteredNews.slice(startIndex, endIndex);
 
             // Update stats
-            totalNews.textContent = `${totalItems} actualité${totalItems !== 1 ? 's' : ''}`;
-            currentPageSpan.textContent = `Page ${archiveState.currentPage} sur ${totalPages || 1}`;
+            if (currentLang === 'fr') {
+                totalNews.textContent = `${totalItems} actualité${totalItems !== 1 ? 's' : ''}`;
+            } else if (currentLang === 'en') {
+                totalNews.textContent = `${totalItems} news item${totalItems !== 1 ? 's' : ''}`;
+            } else {
+                totalNews.textContent = `${totalItems} خبر`;
+            }
+            currentPageSpan.textContent = `${getUIString('pageOf')} ${archiveState.currentPage} ${getUIString('on')} ${totalPages || 1}`;
 
             // Render grid
             if (currentItems.length === 0) {
                 grid.innerHTML = `
                     <div class="no-results">
                         <i class="fas fa-search"></i>
-                        <h3>Aucune actualité trouvée</h3>
-                        <p>Essayez de modifier vos critères de recherche</p>
+                        <h3>${getUIString('noResultsTitle')}</h3>
+                        <p>${getUIString('noResultsSubtitle')}</p>
                     </div>
                 `;
             } else {
@@ -648,7 +1324,7 @@
                     <div class="archive-item" onclick="openNewsletter(${item.id})">
                         <div class="archive-item-image">
                             <img src="${item.image}" alt="${item.title}">
-                            <span class="archive-item-category">${item.category}</span>
+                            <span class="archive-item-category">${getCategoryLabel(item.category)}</span>
                         </div>
                         <div class="archive-item-content">
                             <div>
@@ -658,11 +1334,11 @@
                             <div class="archive-item-footer">
                                 <div class="archive-item-meta">
                                     <span><i class="far fa-calendar"></i> ${item.date}</span>
-                                    <span><i class="far fa-file-alt"></i> ${item.type}</span>
+                                    <span><i class="far fa-file-alt"></i> ${getTypeLabel(item.type)}</span>
                                 </div>
                                 <div class="archive-item-action">
-                                    <span>Lire la suite</span>
-                                    <i class="fas fa-arrow-right"></i>
+                                    <span>${getUIString('readMore')}</span>
+                                    <i class="fas ${arrowClass}"></i>
                                 </div>
                             </div>
                         </div>
@@ -685,9 +1361,12 @@
 
             let html = '';
 
+            const prevIcon = currentLang === 'ar' ? 'fa-chevron-right' : 'fa-chevron-left';
+            const nextIcon = currentLang === 'ar' ? 'fa-chevron-left' : 'fa-chevron-right';
+
             // Previous button
             html += `<button class="pagination-btn" onclick="goToPage(${archiveState.currentPage - 1})" ${archiveState.currentPage === 1 ? 'disabled' : ''}>
-                <i class="fas fa-chevron-left"></i> Précédent
+                <i class="fas ${prevIcon}"></i> ${getUIString('prev')}
             </button>`;
 
             // Page numbers
@@ -705,7 +1384,7 @@
 
             // Next button
             html += `<button class="pagination-btn" onclick="goToPage(${archiveState.currentPage + 1})" ${archiveState.currentPage === totalPages ? 'disabled' : ''}>
-                Suivant <i class="fas fa-chevron-right"></i>
+                ${getUIString('next')} <i class="fas ${nextIcon}"></i>
             </button>`;
 
             container.innerHTML = html;
@@ -722,6 +1401,14 @@
             const months = {
                 'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
                 'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11
+                ,
+                // English months
+                'january': 0, 'february': 1, 'march': 2, 'april': 3, 'may': 4, 'june': 5,
+                'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11,
+
+                // Arabic months
+                'يناير': 0, 'فبراير': 1, 'مارس': 2, 'أبريل': 3, 'مايو': 4, 'يونيو': 5,
+                'يوليو': 6, 'أغسطس': 7, 'سبتمبر': 8, 'أكتوبر': 9, 'نوفمبر': 10, 'ديسمبر': 11
             };
             const parts = dateString.toLowerCase().split(' ');
             return new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
